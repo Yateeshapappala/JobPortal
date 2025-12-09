@@ -1,0 +1,119 @@
+<div class="container py-4">
+
+  <!-- Header: Title + Search + Bookmark -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+
+    <!-- Page Title -->
+    <div>
+      <h2 class="fw-bold mb-2 mb-md-0">Available Job Openings</h2>
+      <p class="text-muted mb-0">
+        Showing {{ paginatedJobs.length }} of {{ jobs.length }} jobs
+      </p>
+    </div>
+
+    <!-- Search + Bookmark -->
+    <div class="row justify-content-center mt-3 mt-md-0">
+      <div class="col-md-6 d-flex align-items-center gap-3">
+        
+        <!-- Search Box -->
+        <div class="position-relative flex-grow-1">
+          <input 
+            type="text" 
+            class="form-control form-control-lg rounded-pill ps-4 pe-5" 
+            placeholder="Search jobs..."
+            [(ngModel)]="searchText"
+            (input)="filterJobs()"
+          >
+          <i class="bi bi-search position-absolute top-50 end-0 translate-middle-y me-3 fs-4 text-muted"></i>
+        </div>
+
+        <!-- Bookmark Filter Icon -->
+        <i 
+          class="{{ showBookmarksOnly ? 'bi-bookmark-fill' : 'bi-bookmark' }} fs-2"
+          style="cursor: pointer; color: var(--primary-color);"
+          title="Show Bookmarked Jobs"
+          (click)="toggleBookmarkFilter()"
+        ></i>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Responsive Job Grid -->
+  <div class="row g-4">
+    <div
+      class="col-12 col-sm-6 col-md-4 col-lg-3"
+      *ngFor="let job of paginatedJobs"
+    >
+      <div class="card card-custom h-100">
+
+        <div class="card-body d-flex flex-column">
+
+          <!-- Title + Bookmark -->
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <h5 class="card-title fw-bold job-title">{{ job.title }}</h5>
+              <p class="text-muted small mb-1">{{ job.company_name }}</p>
+              <p class="text-muted small">{{ job.job_type }}</p>
+            </div>
+
+            <!-- Bookmark Toggle -->
+            <i 
+              class="{{ isBookmarked(job.id) ? 'bi-bookmark-fill' : 'bi-bookmark' }} fs-4"
+              style="cursor: pointer; color: var(--primary-color);"
+              (click)="toggleBookmark(job.id)"
+            ></i>
+
+          </div>
+
+          <!-- Location -->
+          <p class="text-secondary small mb-3">
+            <i class="bi bi-geo-alt-fill"></i>
+            {{ job.candidate_required_location }}
+          </p>
+
+          <!-- Apply Button -->
+          <button
+            class="btn w-100 mt-auto custom-outline-btn"
+            style ="color: var(--primary-color)"
+            [routerLink]="['/jobs', job.id]"
+          >
+            Apply Now
+          </button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <nav class="d-flex justify-content-center mt-5">
+    <ul class="pagination pagination-lg">
+
+      <li class="page-item" [class.disabled]="page === 1">
+        <button class="page-link" (click)="prevPage()">
+          <i class="bi bi-chevron-double-left"></i>
+        </button>
+      </li>
+
+      <li
+        class="page-item"
+        *ngFor="let p of totalPagesArray"
+        [class.active]="p === page"
+      >
+        <button class="page-link" (click)="goToPage(p)">
+          {{ p }}
+        </button>
+      </li>
+
+      <li class="page-item" [class.disabled]="page === totalPages">
+        <button class="page-link" (click)="nextPage()">
+         <i class="bi bi-chevron-double-right"></i>
+        </button>
+      </li>
+
+    </ul>
+  </nav>
+
+</div>

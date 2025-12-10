@@ -1,19 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../Services/Auth.service';
-<<<<<<< HEAD
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { AuthLayoutComponent } from '../auth-layout/auth-layout.component';
 import { ToastrService } from 'ngx-toastr';
 import { NgClass } from '@angular/common';
-=======
-import { Route, Router, RouterLink } from '@angular/router';
-import { NgxCaptchaModule } from 'ngx-captcha';
-import { AuthLayoutComponent } from '../auth-layout/auth-layout.component';
-import { environment } from '../../../../environments/environment';
->>>>>>> 81ddbc5cbaff706fb4b2fdc82dd2b44acbf76648
 
 @Component({
   selector: 'app-loginpage',
@@ -34,7 +27,6 @@ export class LoginpageComponent {
   passwordVisible = false;
 
   readonly MSG_FILL_FIELDS = 'Please fill in all fields.';
-  readonly MSG_INVALID_EMAIL = 'Please enter a valid email address.';
   readonly MSG_VERIFY_CAPTCHA = 'Please verify the captcha.';
   readonly MSG_INVALID_CREDENTIALS = 'Invalid username or password';
 
@@ -63,6 +55,16 @@ export class LoginpageComponent {
 
   login() {
     this.errorMessage = '';
+    console.log("1. Login function started");
+  console.log("2. Captcha status:", this.captchaValid);
+
+    if (!this.username || !this.password) {
+    console.log("3. Missing fields");
+  }
+
+  const result = this.auth.login(this.username, this.password, this.rememberMe);
+  console.log("4. AuthService result:", result);
+
     this.loading = true;
     if (!this.username || !this.password) {
       this.toastr.error(this.MSG_FILL_FIELDS);
@@ -84,9 +86,17 @@ export class LoginpageComponent {
 
       this.router.navigate([returnUrl]);
     } else {
-      this.toastr.error(this.MSG_INVALID_CREDENTIALS);
-      this.captchaValid = false; // Reset captcha validity
-      this.captchaElem?.resetCaptcha();
+       setTimeout(() => {
+    this.toastr.error(this.MSG_INVALID_CREDENTIALS);
+  }, 0);
+
+  this.captchaValid = false;
+
+  try {
+    this.captchaElem?.resetCaptcha();
+  } catch (err) {
+    console.warn("Captcha reset error:", err);
+  }
     }
     this.loading = false;
   }

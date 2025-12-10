@@ -23,7 +23,9 @@ export class AuthService {
 
   login(username: string, password: string, rememberMe: boolean): boolean {
       username = username.trim().toLowerCase();
+      
     const user = this.users.find(
+      
       (u) =>
         (u.username === username || u.email === username) &&
         u.password === password

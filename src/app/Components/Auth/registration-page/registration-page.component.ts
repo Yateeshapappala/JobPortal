@@ -10,6 +10,9 @@ import { Router, RouterLink } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { AuthLayoutComponent } from '../auth-layout/auth-layout.component';
+import { emailUniqueValidator } from '../../../Validators/unique-email.validator';
+import { usernameUniqueValidator } from '../../../Validators/username-unique.validator';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-registration-page',
@@ -18,7 +21,8 @@ import { AuthLayoutComponent } from '../auth-layout/auth-layout.component';
     NgxCaptchaModule,
     RouterLink,
     AuthLayoutComponent,
-  ],
+    NgClass
+],
   templateUrl: './registration-page.component.html',
   styleUrl: './registration-page.component.scss',
 })
@@ -31,6 +35,8 @@ export class RegistrationPageComponent {
 
   errorMessage = '';
   successMessage = '';
+  passwordVisible = false;
+  showpassword = false;
 
   constructor(
     private fb: FormBuilder,
@@ -42,9 +48,22 @@ export class RegistrationPageComponent {
     this.registerForm = this.fb.group(
       {
         fullName: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        username: ['', Validators.required],
-        password: ['', [Validators.required, Validators.minLength(6)]],
+        email: [
+          '',
+          [Validators.required, Validators.email],
+          [emailUniqueValidator()],
+        ],
+        username: ['', Validators.required, [usernameUniqueValidator()]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.pattern(
+              '^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#$%^&*]).{8,}$'
+            ),
+          ],
+        ],
         confirmPassword: ['', Validators.required],
       },
       { validators: this.passwordMatchValidator }
@@ -53,10 +72,14 @@ export class RegistrationPageComponent {
 
   // Password Match Validation
   passwordMatchValidator(form: FormGroup) {
-    return form.get('password')?.value === form.get('confirmPassword')?.value
-      ? null
-      : { passwordMismatch: true };
-  }
+  const password = form.get('password')?.value;
+  const confirm = form.get('confirmPassword')?.value;
+
+  return password && confirm && password !== confirm
+    ? { passwordMismatch: true }
+    : null;
+}
+
 
   get f() {
     return this.registerForm.controls;
@@ -80,8 +103,13 @@ export class RegistrationPageComponent {
       this.errorMessage = 'Please fill all required fields correctly.';
       return;
     }
+    const formValue = this.registerForm.value;
 
-    const result = this.auth.register(this.registerForm.value);
+    formValue.username = formValue.username.trim().toLowerCase();
+    formValue.email = formValue.email.trim().toLowerCase();
+    formValue.fullName = formValue.fullName.trim();
+
+    const result = this.auth.register(formValue);
 
     if (!result.success) {
       this.errorMessage = result.message;

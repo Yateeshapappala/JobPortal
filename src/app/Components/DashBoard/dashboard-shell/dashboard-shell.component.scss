@@ -1,0 +1,12 @@
+.btn-find-jobs {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  
+  &:hover {
+    background-color: darken(#5e35b1, 10%); /* Darkens the purple slightly */
+    color: white;
+  }
+}

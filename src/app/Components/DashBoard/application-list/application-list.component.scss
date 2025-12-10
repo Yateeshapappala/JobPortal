@@ -1,0 +1,82 @@
+/* Table Styling */
+.table {
+  border-collapse: separate;
+  border-spacing: 0 10px; /* Adds space between rows */
+
+  thead th {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    border: none;
+    font-weight: 500;
+  }
+
+  tbody tr td {
+    background: white;
+    border-bottom: 1px solid #f1f5f9;
+    padding: 1rem 0.5rem;
+    
+    &:first-child {
+      padding-left: 1rem;
+    }
+  }
+}
+
+/* Company Logo Circle */
+.company-logo {
+  width: 40px;
+  height: 40px;
+  background-color: #f1f5f9;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+.company-name {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* Custom Status Badges */
+.badge-custom {
+  padding: 0.5em 1em;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  
+  &.status-selected {
+    background-color: var(--success-bg);
+    color: var(--success-text);
+  }
+  
+  &.status-rejected {
+    background-color: var(--danger-bg);
+    color: var(--danger-text);
+  }
+  
+  &.status-review {
+    background-color: var(--warning-bg);
+    color: var(--warning-text);
+  }
+}
+
+/* Action Button */
+.btn-icon {
+  background: #f8f9fa;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  
+  &:hover {
+    background: #e2e8f0;
+    color: var(--primary-color);
+  }
+}

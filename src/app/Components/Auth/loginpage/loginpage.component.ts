@@ -1,12 +1,19 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../Services/Auth.service';
+<<<<<<< HEAD
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { AuthLayoutComponent } from '../auth-layout/auth-layout.component';
 import { ToastrService } from 'ngx-toastr';
 import { NgClass } from '@angular/common';
+=======
+import { Route, Router, RouterLink } from '@angular/router';
+import { NgxCaptchaModule } from 'ngx-captcha';
+import { AuthLayoutComponent } from '../auth-layout/auth-layout.component';
+import { environment } from '../../../../environments/environment';
+>>>>>>> 81ddbc5cbaff706fb4b2fdc82dd2b44acbf76648
 
 @Component({
   selector: 'app-loginpage',

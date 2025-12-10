@@ -1,0 +1,29 @@
+<div class="row g-4 mb-4">
+  <div class="col-md-3">
+    <div class="card-custom p-3">
+      <p class="label">Total Applications</p>
+      <h3 class="count text-primary-custom">{{ stats.total }}</h3>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="card-custom p-3 border-status border-success">
+      <p class="label">Selected</p>
+      <h3 class="count text-success">{{ stats.selected }}</h3>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="card-custom p-3 border-status border-primary">
+      <p class="label">In Review</p>
+      <h3 class="count text-info">{{ stats.pending }}</h3>
+    </div>
+  </div>
+
+  <div class="col-md-3">
+    <div class="card-custom p-3">
+      <p class="label">Rejected</p>
+      <h3 class="count text-secondary">{{ stats.rejected }}</h3>
+    </div>
+  </div>
+</div>

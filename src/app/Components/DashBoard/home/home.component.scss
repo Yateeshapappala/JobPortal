@@ -1,0 +1,73 @@
+/* Hero Section with Soft Gradient */
+.hero-section {
+  padding: 100px 0 80px;
+  background: radial-gradient(circle at 10% 20%, rgb(242, 235, 255) 0%, rgb(255, 255, 255) 90%);
+}
+
+/* Gradient Text Effect */
+.text-gradient {
+  background: -webkit-linear-gradient(45deg, #5e35b1, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Custom Search Box */
+.search-box {
+  border: 1px solid #e2e8f0;
+  transition: box-shadow 0.3s;
+  
+  &:hover, &:focus-within {
+    box-shadow: 0 10px 25px -5px rgba(94, 53, 177, 0.15) !important;
+    border-color: var(--primary-color);
+  }
+  
+  input {
+    font-size: 1.1rem;
+    background: transparent;
+  }
+  
+  .btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+    font-weight: 600;
+    
+    &:hover {
+      background-color: darken(#5e35b1, 10%);
+    }
+  }
+}
+
+/* Job Cards Styling */
+.card-custom {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.company-logo-sm {
+  width: 40px;
+  height: 40px;
+  background-color: #f3f4f6;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800;
+  color: var(--primary-color);
+}
+
+.grayscale-logos {
+  opacity: 0.4;
+  filter: grayscale(100%);
+  transition: opacity 0.3s;
+  
+  &:hover {
+    opacity: 0.8;
+  }
+}

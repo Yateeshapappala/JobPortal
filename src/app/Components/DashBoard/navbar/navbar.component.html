@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    
+    <a class="navbar-brand d-flex align-items-center" routerLink="/">
+      <div class="brand-logo me-2">J</div> <span class="brand-text">JobPortal</span>
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-4">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/jobs" routerLinkActive="active">Find Jobs</a>
+        </li>
+      </ul>
+
+      <div class="d-flex align-items-center">
+        
+        <ng-container *ngIf="!isLoggedIn">
+          <a routerLink="/login" class="btn btn-link text-decoration-none me-2 text-dark fw-bold">Login</a>
+          <a routerLink="/register" class="btn btn-register">Register</a>
+        </ng-container>
+
+        <ng-container *ngIf="isLoggedIn">
+          <a routerLink="/dashboard" class="nav-link me-4" routerLinkActive="active">Dashboard</a>
+          
+          <div class="dropdown">
+             <button class="btn btn-profile d-flex align-items-center gap-2" (click)="logout()">
+              <div class="avatar-circle">{{ username.charAt(0) }}</div>
+              <span class="small fw-bold">{{ username }}</span>
+              <i class="small text-muted">▼</i> 
+            </button>
+          </div>
+        </ng-container>
+
+      </div>
+    </div>
+  </div>
+</nav>

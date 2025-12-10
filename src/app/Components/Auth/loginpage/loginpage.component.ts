@@ -2,9 +2,9 @@ import { Component, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../../../Services/Auth.service';
 import { Route, Router, RouterLink } from '@angular/router';
-import { environment } from '../../../../environments/environment';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { AuthLayoutComponent } from '../auth-layout/auth-layout.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-loginpage',

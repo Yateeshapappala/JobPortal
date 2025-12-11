@@ -57,3 +57,21 @@ a {
   border-radius: 8px;
   border: none;
 }
+.btn:disabled,
+.login-btn:disabled {
+  background: var(--primary-color) !important;
+  opacity: 0.45 !important;
+  color: white !important;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none !important;
+}
+
+/* Hover (WORKING VERSION) */
+.btn:hover:not(:disabled),
+.login-btn:hover:not(:disabled) {
+  background: #4a2892 !important; /* Adjusted darker shade */
+  transform: translateY(-1px) !important;
+  color: white !important;
+}
+

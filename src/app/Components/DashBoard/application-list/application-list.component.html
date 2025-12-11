@@ -1,0 +1,49 @@
+<div class="card-custom p-4">
+  <h5 class="fw-bold mb-4">Recent Applications</h5>
+  
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <thead>
+        <tr>
+          <th>COMPANY</th>
+          <th>ROLE</th>
+          <th>DATE</th>
+          <th>STATUS</th>
+          <th></th> </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let app of applications">
+          
+          <td>
+            <div class="d-flex align-items-center">
+              <div class="company-logo me-3">
+                {{ app.company.charAt(0) }}
+              </div>
+              <span class="company-name">{{ app.company }}</span>
+            </div>
+          </td>
+
+          <td class="text-muted">{{ app.jobTitle }}</td>
+
+          <td class="text-muted">{{ app.dateApplied | date:'mediumDate' }}</td>
+
+          <td>
+            <span class="badge-custom" 
+              [ngClass]="{
+                'status-selected': app.status === 'SELECTED',
+                'status-rejected': app.status === 'REJECTED',
+                'status-review': app.status === 'IN-REVIEW' || app.status === 'REVIEWED'
+              }">
+              {{ app.status }}
+            </span>
+          </td>
+
+          <td class="text-end">
+            <button class="btn-icon">
+              &gt; </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -10,13 +10,25 @@
         placeholder="Full Name"
         formControlName="fullName"
       />
-
+      @if(registerForm && f['fullName'].touched &&
+      f['fullName'].errors?.['required']){
+      <div class="text-danger mb-2">Full name is required.</div>
+      }
       <input
         type="email"
         class="form-control mb-3"
         placeholder="Email"
         formControlName="email"
       />
+      @if(registerForm && f['email'].touched &&
+      f['email'].errors?.['required']){
+      <div class="text-danger mb-2">Email is required</div>
+      } @if(registerForm && f['email'].touched && f['email'].errors?.['email']){
+      <div class="text-danger mb-2">Enter a valid email address.</div>
+      } @if(registerForm && f['email'].touched &&
+      f['email'].errors?.['emailTaken']){
+      <div class="text-danger mb-2">This email is already registered.</div>
+      }
 
       <input
         type="text"
@@ -24,21 +36,68 @@
         placeholder="Username"
         formControlName="username"
       />
-
+      @if(registerForm && f['username'].touched &&
+      f['username'].errors?.['required']){
+      <div class="text-danger mb-2">username is required.</div>
+      } @if(registerForm && f['username'].touched &&
+      f['username'].errors?.['usernameTaken']){
+      <div class="text-danger mb-2">this username already taken.</div>
+      }
+      <div class="input-group mb-3">
       <input
-        type="password"
-        class="form-control mb-3"
+        [type]="passwordVisible ? 'text' : 'password'"
+        class="form-control"
         placeholder="Password"
         formControlName="password"
       />
-
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="passwordVisible = !passwordVisible"
+      >
+        <i
+          class="bi"
+          [ngClass]="passwordVisible ? 'bi-eye-slash' : 'bi-eye'"
+        ></i>
+      </button>
+    </div>
+      @if(registerForm && f['password'].touched &&
+      f['password'].errors?.['required']){
+      <div class="text-danger mb-2">Password is required.</div>
+      } @if(registerForm && f['password'].touched &&
+      f['password'].errors?.['minlength']){
+      <div class="text-danger mb-2">
+        Password must be at least 8 characters long.
+      </div>
+      } @if(registerForm && f['password'].touched &&
+      f['password'].errors?.['pattern']){
+      <div class="text-danger mb-2">
+        Password must contain at least one uppercase letter, one lowercase
+        letter, one number, and one special character.
+      </div>
+      }
+      <div class="input-group">
       <input
-        type="password"
-        class="form-control mb-3"
+        [type]="showpassword ? 'text' : 'password'"
+        class="form-control"
         placeholder="Confirm Password"
         formControlName="confirmPassword"
       />
-
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="showpassword = !showpassword"
+      >
+        <i class="bi" [ngClass]="showpassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+      </button>
+    </div>
+      @if(registerForm && f['confirmPassword'].touched &&
+      f['confirmPassword'].errors?.['required']){
+      <div class="text-danger mb-2">Confirm Password is required.</div>
+      } @if(registerForm && f['confirmPassword'].touched &&
+      registerForm.errors?.['passwordMismatch']){
+      <div class="text-danger mb-2">Passwords do not match.</div>
+      }
       <div class="mb-3 text-center">
         <ngx-recaptcha2
           [siteKey]="sitekey"
@@ -54,7 +113,9 @@
       <div class="alert alert-success">{{ successMessage }}</div>
       }
 
-      <button type="submit" class="btn w-100">Register</button>
+      <button type="submit" class="btn w-100" [disabled]="registerForm.invalid">
+        Register
+      </button>
     </form>
 
     <p class="text-center mt-3">

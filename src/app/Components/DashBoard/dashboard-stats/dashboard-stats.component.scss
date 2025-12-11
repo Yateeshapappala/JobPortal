@@ -1,0 +1,29 @@
+.label {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+}
+
+.count {
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.text-primary-custom {
+  color: var(--primary-color);
+}
+
+/* Adds the colored line on the left of the cards */
+.border-status {
+  border-left: 4px solid transparent; // Default
+  
+  &.border-success {
+    border-left-color: var(--success-text);
+  }
+  
+  &.border-primary {
+    border-left-color: #0dcaf0; // Bootstrap info cyan
+  }
+}

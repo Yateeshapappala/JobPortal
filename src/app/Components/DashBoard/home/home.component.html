@@ -2,35 +2,16 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-8">
-        <span class="badge bg-white text-primary mb-3 shadow-sm rounded-pill px-3 py-2">
-          🚀 #1 Job Platform in 2025
-        </span>
-        <h1 class="display-4 fw-bold mb-4">
-          Find your <span class="text-gradient">dream job</span> <br> without the hassle.
-        </h1>
-        <p class="lead text-muted mb-5">
-          Join thousands of developers finding remote and hybrid jobs at top companies like Google, Netflix, and Amazon.
-        </p>
+        <span class="badge bg-white text-primary mb-3 shadow-sm rounded-pill px-3 py-2">🚀 #1 Job Platform in 2025</span>
+        <h1 class="display-4 fw-bold mb-4">Find your <span class="text-gradient">dream job</span> <br> without the hassle.</h1>
+        <p class="lead text-muted mb-5">Join thousands of developers finding remote and hybrid jobs at top companies.</p>
 
-        <div class="search-box shadow p-2 bg-white rounded-pill d-flex align-items-center mx-auto" style="max-width: 700px;">
+        <div class="search-box shadow p-2 bg-white rounded-pill d-flex align-items-center mx-auto" style="max-width: 900px;">
           <i class="bi bi-search ms-3 text-muted"></i>
-          <input type="text" class="form-control border-0 shadow-none ms-2" placeholder="Job title or keyword...">
-          <button class="btn btn-primary rounded-pill px-4 py-2">Search</button>
+          <input type="text" class="form-control border-0 shadow-none ms-2" placeholder="Job title, company or keyword..." (input)="onSearchInput($any($event.target).value)" [value]="searchQuery">
+          <button class="btn btn-primary rounded-pill px-4 py-2" (click)="applyFilter(searchQuery)">Search</button>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<section class="py-4 bg-white border-bottom">
-  <div class="container text-center">
-    <p class="small text-muted fw-bold mb-3 uppercase">TRUSTED BY TEAMS AT</p>
-    <div class="d-flex justify-content-center gap-5 opacity-50 grayscale-logos">
-      <h4 class="fw-bold mb-0">Google</h4>
-      <h4 class="fw-bold mb-0">airbnb</h4>
-      <h4 class="fw-bold mb-0">Spotify</h4>
-      <h4 class="fw-bold mb-0">slack</h4>
-      <h4 class="fw-bold mb-0">NETFLIX</h4>
     </div>
   </div>
 </section>
@@ -39,34 +20,36 @@
   <div class="container">
     <div class="d-flex justify-content-between align-items-end mb-4">
       <div>
-        <h2 class="fw-bold">Featured Jobs</h2>
-        <p class="text-muted mb-0">Hand-picked jobs just for you.</p>
+        <h2 class="fw-bold">Latest Jobs</h2>
+        <p class="text-muted mb-0">Jobs pulled from Remotive API.</p>
       </div>
       <a routerLink="/jobs" class="text-decoration-none fw-bold text-primary">View all jobs &rarr;</a>
     </div>
 
-    <div class="row g-4">
-      <div class="col-md-6 col-lg-3" *ngFor="let job of featuredJobs">
+    <div *ngIf="loading" class="text-center py-4">Loading jobs...</div>
+
+    <div class="row g-4" *ngIf="!loading">
+      <div class="col-md-6 col-lg-3" *ngFor="let job of filteredJobs | slice:0:12">
         <div class="card card-custom h-100 p-3 border-0">
           <div class="card-body">
-            
             <div class="d-flex justify-content-between mb-3">
-              <div class="company-logo-sm">{{ job.logo }}</div>
-              <span class="badge bg-light text-dark">{{ job.type }}</span>
+              <div class="company-logo-sm">{{ (job.company_name || job.company || 'J').charAt(0) }}</div>
+              <span class="badge bg-light text-dark">{{ job.job_type || job.type || 'Remote' }}</span>
             </div>
-            
-            <h5 class="fw-bold mb-1">{{ job.title }}</h5>
-            <p class="text-muted small mb-3">{{ job.company }}</p>
+
+            <h5 class="fw-bold mb-1">{{ job.title || job.job_title }}</h5>
+            <p class="text-muted small mb-3">{{ job.company_name || job.company }}</p>
 
             <div class="d-flex align-items-center text-muted small mb-4">
-              <span class="me-3">📍 {{ job.location }}</span>
-              <span>💰 $60k - $90k</span>
+              <span class="me-3">📍 {{ job.candidate_required_location || job.location || 'Remote' }}</span>
+              <span>💰 —</span>
             </div>
 
-            <button class="btn btn-outline-primary w-100 rounded-pill btn-sm">Apply Now</button>
+            <button class="btn btn-outline-primary w-100 rounded-pill btn-sm" (click)="apply(job)">Apply Now</button>
           </div>
         </div>
       </div>
+      <div *ngIf="filteredJobs.length === 0" class="col-12 text-center text-muted py-4">No jobs found for "{{ searchQuery }}".</div>
     </div>
   </div>
 </section>

@@ -72,8 +72,12 @@
             "production": {
               "buildTarget": "JobPortal:build:production"
             },
-            "development": {
-              "buildTarget": "JobPortal:build:development"
+            
+           "development": {
+              "buildTarget": "JobPortal:build:development",
+              
+        "proxyConfig": "proxy.conf.json"
+      
             }
           },
           "defaultConfiguration": "development"

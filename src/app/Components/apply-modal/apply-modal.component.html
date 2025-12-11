@@ -1,144 +1,232 @@
-<!-- Apply Job Modal -->
-<div class="modal fade" id="applyJobModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content rounded-4 p-3">
+<div class="modal fade" id="applyJobModal" tabindex="-1" aria-labelledby="applyJobModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content rounded-4">
 
       <div class="modal-header border-0">
-        <h5 class="modal-title fw-bold">
-          Apply for: <span class="text-primary">{{ jobTitle }}</span>
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <h4 class="modal-title fw-bold" id="applyJobModalLabel">
+          <i class="bi bi-person-workspace me-2" style="color: var(--primary-color);"></i>
+          Apply for:
+          <span style="color: var(--primary-color);">{{ jobTitle }}</span>
+        </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
 
-      <div class="modal-body">
+      <div class="modal-body pt-0">
+        <form [formGroup]="applyForm" class="row g-3">
 
-        <form [formGroup]="applyForm">
+          <div class="col-md-6">
+            <h6 class="text-secondary fw-bold mb-2">Personal Information</h6>
 
-          <!-- Full Name -->
-          <div class="mb-3">
-            <label class="form-label fw-semibold">
-              Full Name <span class="text-danger">*</span>
-            </label>
-            <input
-              type="text"
-              class="form-control"
-              formControlName="fullName"
-              [ngClass]="{ 'is-invalid': f['fullName'].touched && f['fullName'].invalid }"
-            >
-            <div class="invalid-feedback">Full name is required.</div>
+            <div class="mb-3">
+              <label class="form-label">Full Name <span class="text-danger">*</span></label>
+              <input type="text" class="form-control"
+                formControlName="fullName"
+                [ngClass]="{ 'is-invalid': f['fullName'].touched && f['fullName'].invalid }">
+              <div class="invalid-feedback">Full name is required.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Email <span class="text-danger">*</span></label>
+              <input type="email" class="form-control"
+                formControlName="email"
+                [ngClass]="{ 'is-invalid': f['email'].touched && f['email'].invalid }">
+              <div class="invalid-feedback">Enter a valid email.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Contact Number <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                <input type="text" class="form-control" maxlength="10"
+                  formControlName="contact"
+                  [ngClass]="{ 'is-invalid': f['contact'].touched && f['contact'].invalid }">
+              </div>
+
+              <div class="invalid-feedback d-block" *ngIf="f['contact'].touched && f['contact'].invalid">
+                <ng-container *ngIf="f['contact'].errors?.['required']">Contact number is required.</ng-container>
+                <ng-container *ngIf="f['contact'].errors?.['invalidFormat']">Enter a valid 10-digit number.</ng-container>
+                <ng-container *ngIf="f['contact'].errors?.['allSameDigits']">Cannot contain all same digits.</ng-container>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Current City <span class="text-danger">*</span></label>
+              <input type="text" class="form-control"
+                formControlName="currentCity"
+                [ngClass]="{ 'is-invalid': f['currentCity'].touched && f['currentCity'].invalid }"> 
+              <div class="invalid-feedback">Current city is required.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Available From <span class="text-danger">*</span></label>
+              <input type="date" class="form-control"
+                formControlName="availableFrom"
+                [ngClass]="{ 'is-invalid': f['availableFrom'].touched && f['availableFrom'].invalid }">
+              <div class="invalid-feedback">Select date.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">LinkedIn Profile (optional)</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-linkedin"></i></span>
+                <input type="url" class="form-control" formControlName="linkedin">
+              </div>
+            </div>
+
           </div>
 
-          <!-- Email -->
-          <div class="mb-3">
-            <label class="form-label fw-semibold">
-              Email Address <span class="text-danger">*</span>
-            </label>
-            <input
-              type="email"
-              class="form-control"
-              formControlName="email"
-              [ngClass]="{ 'is-invalid': f['email'].touched && f['email'].invalid }"
-            >
-            <div class="invalid-feedback">Enter a valid email address.</div>
+          <div class="col-md-6">
+            <h6 class="text-secondary fw-bold mb-2">Career Details</h6>
+
+            <div class="mb-3">
+              <label class="form-label">Qualification <span class="text-danger">*</span></label>
+              <select class="form-select"
+                formControlName="qualifications"
+                [ngClass]="{ 'is-invalid': f['qualifications'].touched && f['qualifications'].invalid }">
+
+                <option value="" disabled selected>Select Qualification</option>
+                <option value="B.Tech">B.Tech</option>
+                <option value="B.E">B.E</option>
+                <option value="M.Tech">M.Tech</option>
+                <option value="MBA">MBA</option>
+                <option value="MCA">MCA</option>
+                <option value="B.Sc">B.Sc</option>
+                <option value="M.Sc">M.Sc</option>
+                <option value="Diploma">Diploma</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="High School">High School</option>
+
+              </select>
+              <div class="invalid-feedback">Select a qualification.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Passed Out Year <span class="text-danger">*</span></label>
+              <input type="number" class="form-control"
+                formControlName="passedOutYear"
+                [ngClass]="{ 'is-invalid': f['passedOutYear'].touched && f['passedOutYear'].invalid }">
+              <div class="invalid-feedback">Enter year.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Experience <span class="text-danger">*</span></label>
+              <select class="form-select"
+                formControlName="experience"
+                (change)="onExperienceChange($event)"
+                [ngClass]="{ 'is-invalid': f['experience'].touched && f['experience'].invalid }">
+
+                <option value="" disabled selected>Select Experience Level</option>
+                <option value="Fresher">Fresher</option>
+                <option value="0-1 years">0–1 years</option>
+                <option value="1-3 years">1–3 years</option>
+                <option value="3-5 years">3–5 years</option>
+                <option value="5+ years">5+ years</option>
+
+              </select>
+              <div class="invalid-feedback">Select experience.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Expected Salary <span class="text-danger">*</span></label>
+
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-currency-dollar"></i></span>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="expectedSalary"
+                  [ngClass]="{
+                    'is-invalid': f['expectedSalary'].touched && f['expectedSalary'].invalid
+                  }">
+              </div>
+
+              <div class="invalid-feedback d-block"
+                *ngIf="f['expectedSalary'].touched && f['expectedSalary'].errors?.['required']">
+                Expected salary is required.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">How did you hear about us? <span class="text-danger">*</span></label>
+              <select class="form-select"
+                formControlName="source"
+                [ngClass]="{ 'is-invalid': f['source'].touched && f['source'].invalid }">
+                <option value="" disabled selected>Select Source</option>
+                <option value="LinkedIn">LinkedIn</option>
+                <option value="Referral">Referral</option>
+                <option value="Job Board">Job Board (e.g., Indeed, Naukri)</option>
+                <option value="Website">Company Website</option>
+                <option value="Social Media">Social Media</option>
+                <option value="Other">Other</option>
+              </select>
+              <div class="invalid-feedback">Please select a source.</div>
+            </div>
+
+
+            <div class="mb-3">
+              <label class="form-label">Upload Resume (PDF only) <span class="text-danger">*</span></label>
+              <input type="file" accept=".pdf" class="form-control"
+                (change)="onFileSelect($event)"
+                [ngClass]="{ 'is-invalid': f['resume'].touched && f['resume'].invalid }">
+              <div class="invalid-feedback">Resume required.</div>
+            </div>
+
           </div>
 
-          <!-- Contact Number -->
-          <div class="mb-3">
-            <label class="form-label fw-semibold">
-              Contact Number <span class="text-danger">*</span>
-            </label>
-            <input
-              type="text"
-              maxlength="10"
-              class="form-control"
-              formControlName="contact"
-              [ngClass]="{ 'is-invalid': f['contact'].touched && f['contact'].invalid }"
-            >
-            <div class="invalid-feedback">Enter a valid 10-digit number.</div>
+          <div *ngIf="showExperienceDetails" class="col-12 border p-3 rounded mt-2">
+            <h6 class="text-secondary fw-bold mb-2">
+              <i class="bi bi-briefcase-fill me-1" style="color: var(--primary-color);"></i> 
+              Professional Experience
+            </h6>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Previous Company <span class="text-danger">*</span></label>
+                <input type="text" class="form-control"
+                  formControlName="previousCompany"
+                  [ngClass]="{ 'is-invalid': f['previousCompany'].touched && f['previousCompany'].invalid }">
+                <div class="invalid-feedback">Required.</div>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Previous Role <span class="text-danger">*</span></label>
+                <input type="text" class="form-control"
+                  formControlName="previousRole"
+                  [ngClass]="{ 'is-invalid': f['previousRole'].touched && f['previousRole'].invalid }">
+                <div class="invalid-feedback">Required.</div>
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Total Experience (Years) <span class="text-danger">*</span></label>
+                <input type="number" class="form-control"
+                  formControlName="experienceYears"
+                  [ngClass]="{ 'is-invalid': f['experienceYears'].touched && f['experienceYears'].invalid }">
+                <div class="invalid-feedback">Required.</div>
+              </div>
+            </div>
           </div>
 
-          <!-- Experience Dropdown -->
-          <div class="mb-3">
-            <label class="form-label fw-semibold">
-              Experience Level <span class="text-danger">*</span>
-            </label>
-            <select
-              class="form-select"
-              formControlName="experience"
-              [ngClass]="{ 'is-invalid': f['experience'].touched && f['experience'].invalid }"
-            >
-              <option value="">Select</option>
-              <option value="Fresher">Fresher</option>
-              <option value="0-1 years">0–1 years</option>
-              <option value="1-3 years">1–3 years</option>
-              <option value="3-5 years">3–5 years</option>
-              <option value="5+ years">5+ years</option>
-            </select>
-            <div class="invalid-feedback">Please select experience.</div>
-          </div>
-
-          <!-- Expected Salary -->
-          <div class="mb-3">
-            <label class="form-label fw-semibold">
-              Expected Salary (₹) <span class="text-danger">*</span>
-            </label>
-            <input
-              type="number"
-              class="form-control"
-              formControlName="expectedSalary"
-              [ngClass]="{ 'is-invalid': f['expectedSalary'].touched && f['expectedSalary'].invalid }"
-            >
-            <div class="invalid-feedback">Expected salary is required.</div>
-          </div>
-
-          <!-- LinkedIn URL (optional) -->
-          <div class="mb-3">
-            <label class="form-label fw-semibold">
-              LinkedIn Profile URL (optional)
-            </label>
-            <input type="url" class="form-control" formControlName="linkedin">
-          </div>
-
-          <!-- Available From -->
-          <div class="mb-3">
-            <label class="form-label fw-semibold">
-              Available From <span class="text-danger">*</span>
-            </label>
-            <input
-              type="date"
-              class="form-control"
-              formControlName="availableFrom"
-              [ngClass]="{ 'is-invalid': f['availableFrom'].touched && f['availableFrom'].invalid }"
-            >
-            <div class="invalid-feedback">Please select a date.</div>
-          </div>
-
-          <!-- Resume Upload -->
-          <div class="mb-3">
-            <label class="form-label fw-semibold">
-              Upload Resume (PDF) <span class="text-danger">*</span>
-            </label>
-            <input
-              type="file"
-              accept=".pdf"
-              class="form-control"
-              (change)="onFileSelect($event)"
-              [ngClass]="{ 'is-invalid': f['resume'].touched && f['resume'].invalid }"
-            >
-            <div class="invalid-feedback">Resume is required.</div>
+          <div class="col-12 mt-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox"
+                formControlName="consent"
+                [ngClass]="{ 'is-invalid': f['consent'].touched && f['consent'].invalid }">
+              <label class="form-check-label">
+                I confirm all details are accurate and consent to use for recruitment <span class="text-danger">*</span>
+              </label>
+              <div class="invalid-feedback">You must consent to proceed.</div>
+            </div>
           </div>
 
         </form>
       </div>
 
       <div class="modal-footer border-0">
-        <button
-          class="btn w-100 text-white py-2 rounded-4"
-          style="background-color: var(--primary-color); font-weight: 600;"
+        <button class="btn w-100 py-2 fw-bold text-white"
+          style="background-color: var(--primary-color);"
           [disabled]="applyForm.invalid"
-          (click)="submitForm()"
-        >
-          Submit Application
+          (click)="submitForm()">
+          <i class="bi bi-send-fill me-2"></i> Submit Application
         </button>
       </div>
 
@@ -146,15 +234,15 @@
   </div>
 </div>
 
-<!-- Success Toast -->
-<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 2000;">
-  <div id="successToast" class="toast align-items-center text-bg-success border-0" role="alert">
-    <div class="d-flex">
-      <div class="toast-body">
-        Application submitted successfully!
-      </div>
-      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+<div class="toast-container position-fixed **top-0** **end-0** p-3">
+  <div id="successToast" class="toast hide text-white border-0" role="alert" aria-live="assertive" aria-atomic="true" style="background-color: #198754; z-index: 1100;"> 
+    <div class="toast-header text-success">
+      <i class="bi bi-check-circle-fill me-2" style="color: var(--primary-color);"></i>
+      <strong class="me-auto" style="color: var(--primary-color);">Application Status</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body text-black">
+      Your application for **{{ jobTitle }}** has been successfully submitted and saved!
     </div>
   </div>
 </div>
-

@@ -13,5 +13,8 @@ export class JobsService {
   getJobs() {
     return this.http.get(this.apiUrl);
   }
+  getJobById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}?id=${id}`);
+  }
 }
 

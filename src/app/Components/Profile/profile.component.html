@@ -1,0 +1,106 @@
+<div class="profile-wrapper container py-4">
+  <div class="row g-4">
+    <!-- LEFT SIDEBAR -->
+    <div class="col-lg-3 col-md-4">
+      <div class="profile-summary-card">
+        <!-- Pencil icon on avatar -->
+        <div class="avatar-wrapper">
+          <img
+            class="profile-avatar"
+            [src]="user?.profilePic || 'assets/default-user.png'"
+          />
+
+          <button class="avatar-edit-btn" (click)="togglePhotoMenu()">
+            <i class="bi bi-pencil-fill"></i>
+          </button>
+
+          <!-- PHOTO MENU (Edit / Remove) -->
+          <div class="photo-menu" *ngIf="showPhotoMenu">
+            <button (click)="triggerPhotoUpload()">Change Photo</button>
+            <button class="remove-btn" (click)="removePhoto()">
+              Remove Photo
+            </button>
+          </div>
+        </div>
+
+        <!-- Hidden file chooser -->
+        <input
+          type="file"
+          #photoInput
+          class="d-none"
+          accept="image/*"
+          (change)="updatePhoto($event)"
+        />
+
+        <h4 class="profile-name">{{ user?.fullName }}</h4>
+        <p class="profile-email">{{ user?.email }}</p>
+        <p class="profile-username">{{ user?.username }}</p>
+
+        <div class="divider"></div>
+
+        <p class="profile-location" *ngIf="user?.city">
+          <i class="bi bi-geo-alt"></i> {{ user?.city }}, {{ user?.state }}
+        </p>
+      </div>
+    </div>
+
+    <!-- RIGHT CONTENT -->
+    <div class="col-lg-9 col-md-8">
+      <app-profile-section title="Basic Information" #section1>
+        <app-basic-info
+          [editMode]="section1.editMode"
+          (saved)="section1.editMode = false"
+        ></app-basic-info>
+      </app-profile-section>
+
+      <app-profile-section title="Professional Summary" #section2>
+        <app-summary
+          [editMode]="section2.editMode"
+          (saved)="section2.editMode = false"
+        ></app-summary>
+      </app-profile-section>
+
+      <app-profile-section title="Experience" #section3>
+        <app-experience
+          [editMode]="section3.editMode"
+          (saved)="section3.editMode = false"
+        ></app-experience>
+      </app-profile-section>
+
+      <app-profile-section title="Education" #section4>
+        <app-education
+          [editMode]="section4.editMode"
+          (saved)="section4.editMode = false"
+        ></app-education>
+      </app-profile-section>
+
+      <app-profile-section title="Skills" #section5>
+        <app-skills
+          [editMode]="section5.editMode"
+          (saved)="section5.editMode = false"
+        ></app-skills>
+      </app-profile-section>
+
+      <app-profile-section title="Projects" #section6>
+        <app-projects
+          [editMode]="section6.editMode"
+          (saved)="section6.editMode = false"
+        ></app-projects>
+      </app-profile-section>
+
+      <app-profile-section title="Social Profiles" #section7>
+        <app-social-links
+          [editMode]="section7.editMode"
+          (saved)="section7.editMode = false"
+        ></app-social-links>
+      </app-profile-section>
+
+      <app-profile-section title="Additional Information" #section8>
+        <app-additional-info
+          [editMode]="section8.editMode"
+          (saved)="section8.editMode = false"
+        ></app-additional-info>
+      </app-profile-section>
+    </div>
+  </div>
+</div>

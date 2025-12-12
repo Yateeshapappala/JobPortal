@@ -1,0 +1,23 @@
+<!-- VIEW MODE -->
+<div *ngIf="!editMode" class="view">
+  <p class="mb-0">{{ user?.summary || "Add a short professional summary." }}</p>
+</div>
+
+<!-- EDIT MODE -->
+<form *ngIf="editMode" [formGroup]="form" (ngSubmit)="save()" class="edit">
+  <textarea
+    class="form-control mb-2"
+    rows="4"
+    formControlName="summary"
+  ></textarea>
+
+  <div class="text-end">
+    <button
+      type="submit"
+      class="btn btn-success btn-sm"
+      (click)="$event.stopPropagation()"
+    >
+      Save
+    </button>
+  </div>
+</form>

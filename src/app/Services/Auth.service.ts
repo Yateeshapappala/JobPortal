@@ -22,10 +22,9 @@ export class AuthService {
   // -------------------------- LOGIN --------------------------
 
   login(username: string, password: string, rememberMe: boolean): boolean {
-      username = username.trim().toLowerCase();
-      
+    username = username.trim().toLowerCase();
+
     const user = this.users.find(
-      
       (u) =>
         (u.username === username || u.email === username) &&
         u.password === password
@@ -91,7 +90,7 @@ export class AuthService {
     localStorage.removeItem('rememberMe');
 
     this.loggedInSubject.next(false);
-    this.router.navigate(['/login']);
+    this.router.navigate(['']);
   }
 
   // -------------------------- USER DATA --------------------------

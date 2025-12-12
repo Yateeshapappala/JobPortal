@@ -1,0 +1,77 @@
+<!-- VIEW MODE -->
+<div *ngIf="!editMode" class="view">
+  <p *ngIf="user?.additional?.languages?.length">
+    <strong>Languages:</strong>
+    {{ user?.additional?.languages?.join(", ") }}
+  </p>
+
+  <p *ngIf="user?.additional?.certifications?.length">
+    <strong>Certifications:</strong>
+    {{ user?.additional?.certifications?.join(", ") }}
+  </p>
+
+  <p *ngIf="user?.additional?.achievements?.length">
+    <strong>Achievements:</strong>
+    {{ user?.additional?.achievements?.join(", ") }}
+  </p>
+
+  <p *ngIf="!user?.additional">No extra details added</p>
+</div>
+
+<!-- EDIT MODE -->
+<form *ngIf="editMode" [formGroup]="form" (ngSubmit)="save()" class="edit">
+  <!-- LANGUAGES -->
+  <div class="mb-2">
+    <label>Languages (comma separated)</label>
+    <input class="form-control" formControlName="languages" />
+
+    <div
+      class="text-danger small"
+      *ngIf="form.get('languages')?.touched && form.get('languages')?.errors"
+    >
+      Only letters and commas allowed (e.g., English, Hindi, French).
+    </div>
+  </div>
+
+  <!-- CERTIFICATIONS -->
+  <div class="mb-2">
+    <label>Certifications (comma separated)</label>
+    <input class="form-control" formControlName="certifications" />
+
+    <div
+      class="text-danger small"
+      *ngIf="
+        form.get('certifications')?.touched &&
+        form.get('certifications')?.errors
+      "
+    >
+      Each certification must be at least 3 characters.
+    </div>
+  </div>
+
+  <!-- ACHIEVEMENTS -->
+  <div class="mb-2">
+    <label>Achievements (comma separated)</label>
+    <input class="form-control" formControlName="achievements" />
+
+    <div
+      class="text-danger small"
+      *ngIf="
+        form.get('achievements')?.touched && form.get('achievements')?.errors
+      "
+    >
+      Each achievement must be at least 3 characters.
+    </div>
+  </div>
+
+  <div class="text-end">
+    <button
+      type="submit"
+      class="btn btn-success btn-sm"
+      [disabled]="form.invalid"
+      (click)="$event.stopPropagation()"
+    >
+      Save
+    </button>
+  </div>
+</form>

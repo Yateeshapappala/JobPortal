@@ -1,0 +1,74 @@
+<!-- VIEW MODE -->
+<div *ngIf="!editMode" class="view">
+  <p *ngIf="user?.social?.linkedin">
+    <a [href]="user?.social?.linkedin" target="_blank">LinkedIn</a>
+  </p>
+
+  <p *ngIf="user?.social?.github">
+    <a [href]="user?.social?.github" target="_blank">GitHub</a>
+  </p>
+
+  <p *ngIf="user?.social?.website">
+    <a [href]="user?.social?.website" target="_blank">Portfolio</a>
+  </p>
+</div>
+
+<!-- EDIT MODE -->
+<form *ngIf="editMode" [formGroup]="form" (ngSubmit)="save()" class="edit">
+  <!-- LINKEDIN -->
+  <div class="mb-2">
+    <input
+      class="form-control"
+      formControlName="linkedin"
+      placeholder="LinkedIn URL"
+    />
+    <div
+      class="text-danger small"
+      *ngIf="form.get('linkedin')?.touched && form.get('linkedin')?.errors"
+    >
+      Enter a valid LinkedIn profile URL (example:
+      https://www.linkedin.com/in/username)
+    </div>
+  </div>
+
+  <!-- GITHUB -->
+  <div class="mb-2">
+    <input
+      class="form-control"
+      formControlName="github"
+      placeholder="GitHub URL"
+    />
+    <div
+      class="text-danger small"
+      *ngIf="form.get('github')?.touched && form.get('github')?.errors"
+    >
+      Enter a valid GitHub profile URL (example: https://github.com/username)
+    </div>
+  </div>
+
+  <!-- PORTFOLIO -->
+  <div class="mb-2">
+    <input
+      class="form-control"
+      formControlName="website"
+      placeholder="Portfolio URL"
+    />
+    <div
+      class="text-danger small"
+      *ngIf="form.get('website')?.touched && form.get('website')?.errors"
+    >
+      Enter a valid website URL (example: https://www.myportfolio.com)
+    </div>
+  </div>
+
+  <div class="text-end">
+    <button
+      type="submit"
+      class="btn btn-success btn-sm"
+      (click)="$event.stopPropagation()"
+      [disabled]="form.invalid"
+    >
+      Save
+    </button>
+  </div>
+</form>

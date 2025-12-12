@@ -1,0 +1,133 @@
+<!-- VIEW MODE -->
+<div *ngIf="!editMode" class="view">
+  <div *ngFor="let e of user?.experience || []" class="mb-3">
+    <h6 class="mb-0">{{ e.title }} — {{ e.company }}</h6>
+
+    <small class="text-muted">
+      {{ e.startDate || "" }} —
+      {{ e.current ? "Present" : e.endDate || "" }}
+    </small>
+
+    <p class="mb-1">{{ e.description }}</p>
+
+    <p class="mb-0">
+      <small class="text-muted">Tech: {{ e.tech }}</small>
+    </p>
+  </div>
+</div>
+
+<!-- EDIT MODE -->
+<form *ngIf="editMode" [formGroup]="form" (ngSubmit)="save()" class="edit">
+  <div formArrayName="experience">
+    <div
+      *ngFor="let fg of experience.controls; let i = index"
+      [formGroupName]="i"
+      class="card p-2 mb-2"
+    >
+      <div class="row g-2">
+        <!-- TITLE -->
+        <div class="col-md-6">
+          <input
+            class="form-control"
+            placeholder="Job Title"
+            formControlName="title"
+          />
+          <div
+            class="text-danger small"
+            *ngIf="fg.get('title')?.errors?.['required']"
+          >
+            Job title is required.
+          </div>
+        </div>
+
+        <!-- COMPANY -->
+        <div class="col-md-6">
+          <input
+            class="form-control"
+            placeholder="Company"
+            formControlName="company"
+          />
+          <div
+            class="text-danger small"
+            *ngIf="fg.get('company')?.errors?.['required']"
+          >
+            Company name is required.
+          </div>
+        </div>
+
+        <!-- START DATE -->
+        <div class="col-md-3">
+          <input type="date" class="form-control" formControlName="startDate" />
+          <div
+            class="text-danger small"
+            *ngIf="fg.get('startDate')?.errors?.['invalidStart']"
+          >
+            Start date must be a past date.
+          </div>
+        </div>
+
+        <!-- END DATE -->
+        <div class="col-md-3">
+          <input type="date" class="form-control" formControlName="endDate" />
+          <div
+            class="text-danger small"
+            *ngIf="fg.get('endDate')?.errors?.['invalidEnd']"
+          >
+            End date must be a past date.
+          </div>
+          <div class="text-danger small" *ngIf="fg.errors?.['beforeStart']">
+            End date must be after start date.
+          </div>
+        </div>
+
+        <!-- TECH STACK -->
+        <div class="col-md-6">
+          <input
+            class="form-control"
+            placeholder="Technologies"
+            formControlName="tech"
+          />
+          <div
+            class="text-danger small"
+            *ngIf="fg.get('tech')?.errors?.['maxlength']"
+          >
+            Technologies text is too long.
+          </div>
+        </div>
+
+        <!-- DESCRIPTION -->
+        <div class="col-12">
+          <textarea
+            class="form-control"
+            placeholder="Description"
+            formControlName="description"
+          ></textarea>
+        </div>
+
+        <div class="col-12 text-end">
+          <button
+            type="button"
+            class="btn btn-sm btn-danger"
+            (click)="remove(i)"
+          >
+            Remove
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mt-2">
+    <button type="button" class="btn btn-sm btn-secondary" (click)="add()">
+      + Add Experience
+    </button>
+
+    <button
+      type="submit"
+      class="btn btn-success btn-sm"
+      [disabled]="form.invalid"
+    >
+      Save
+    </button>
+  </div>
+</form>

@@ -1,0 +1,22 @@
+.avatar-lg {
+  width: 95px;
+  height: 95px;
+  object-fit: cover;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.shadow {
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+  border-color: #dc3545 !important;
+}

@@ -80,14 +80,24 @@
         </div>
 
         <!-- Apply Button -->
-      <button
-  class="btn w-100 rounded-4 py-2"
-  style="background-color: var(--primary-color); color: white; font-weight: 600;"
-  data-bs-toggle="modal"
-  data-bs-target="#applyJobModal">
-  <i class="bi bi-envelope-check me-1"></i> Apply Now
+    <button
+  class="btn w-100 rounded-4 py-2 fw-semibold"
+  [ngStyle]="{
+    'background-color': isJobApplied ? 'var(--success-text)' : 'var(--primary-color)',
+    'color': 'white',
+    'border': '2px solid ' + (isJobApplied ? 'var(--success-text)' : 'var(--primary-color)')
+  }"
+  [disabled]="isJobApplied"
+  [attr.data-bs-toggle]="isJobApplied ? null : 'modal'"
+  [attr.data-bs-target]="isJobApplied ? null : '#applyJobModal'"
+>
+  <span *ngIf="isJobApplied">
+      <i class="bi bi-check-circle-fill me-1"></i> Applied
+  </span>
+  <span *ngIf="!isJobApplied">
+      <i class="bi bi-envelope-check me-1"></i> Apply Now
+  </span>
 </button>
-
 
 
 
@@ -131,4 +141,9 @@
 <!-- <app-apply-modal [jobTitle]="jobDetails.title"></app-apply-modal> -->
 
 <!-- Include the modal below -->
-<app-apply-modal [jobTitle]="jobDetails.title"></app-apply-modal>
+<app-apply-modal 
+    [jobTitle]="jobDetails.title"
+    [jobId]="jobDetails.id"  
+    
+    (onModalHidden)="onModalHidden()" 
+></app-apply-modal>

@@ -92,4 +92,11 @@ isBookmarked(jobId: number): boolean {
   goToPage(p: number) {
     this.page = p;
   }
+  clearSearch(): void {
+    // 1. Clear the bound model
+    this.searchText = '';
+    
+    // 2. Re-run the filter to display all jobs
+    this.filterJobs(); 
+  }
 }

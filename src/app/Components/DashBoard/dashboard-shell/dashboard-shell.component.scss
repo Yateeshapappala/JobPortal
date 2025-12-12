@@ -1,12 +1,153 @@
 .btn-find-jobs {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 500;
-  
+  font-weight: 700; /* bold text */
+  color: var(--primary-color); /* purple text */
+  background-color: transparent;
+  border: 2px solid var(--primary-color);
+  border-radius: 30px;
+  padding: 8px 18px;
+  transition: 0.2s ease;
+
   &:hover {
-    background-color: darken(#5e35b1, 10%); /* Darkens the purple slightly */
-    color: white;
+    background-color: var(--primary-color);
+    color: #fff;
+    transform: translateY(-2px);
   }
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+/* Compact Job Card Wrapper */
+.job-card-compact {
+  padding: 0.75rem !important;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(18, 38, 63, 0.05);
+  transition: 0.15s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(18, 38, 63, 0.08);
+  }
+}
+
+/* Logo Slab */
+.job-card-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #f3f6fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.job-card-logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.job-card-logo-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background: #eef2f7;
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Titles & Text */
+.job-card-title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-dark);
+}
+
+.job-card-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+}
+
+.job-card-location {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+/* Actions */
+.job-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+}
+
+.job-card-details-link {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+/* Reuse home badge style */
+.job-type-badge {
+  background: #eef2ff;
+  color: var(--primary-color);
+  font-weight: 600;
+  border-radius: 20px;
+  padding: 2px 8px;
+  font-size: 0.72rem;
+}
+/* Apply Button – Purple (same as Home .btn-purple) */
+.job-apply-btn {
+  background-color: #6a5acd !important; /* soft purple */
+  color: #fff !important;
+  border: none;
+  font-weight: 600;
+  transition: 0.2s ease;
+
+  &:hover {
+    background-color: #5a4ec4 !important;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    background-color: #4a3eb5 !important;
+  }
+}
+
+/* Details Link – Light Purple */
+.job-details-light {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #9c88ff !important; /* light purple */
+  text-decoration: none;
+  transition: 0.15s ease;
+
+  &:hover {
+    color: #b9a6ff !important;
+    text-decoration: underline;
+  }
+}
+.dashboard-wrapper {
+  padding: 50px;
+  background: radial-gradient(
+    circle at 10% 20%,
+    rgb(242, 235, 255) 0%,
+    rgb(255, 255, 255) 90%
+  );
 }

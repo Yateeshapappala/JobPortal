@@ -18,11 +18,11 @@
 /* Adds the colored line on the left of the cards */
 .border-status {
   border-left: 4px solid transparent; // Default
-  
+
   &.border-success {
     border-left-color: var(--success-text);
   }
-  
+
   &.border-primary {
     border-left-color: #0dcaf0; // Bootstrap info cyan
   }

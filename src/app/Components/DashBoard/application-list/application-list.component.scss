@@ -14,7 +14,7 @@
     background: white;
     border-bottom: 1px solid #f1f5f9;
     padding: 1rem 0.5rem;
-    
+
     &:first-child {
       padding-left: 1rem;
     }
@@ -45,17 +45,17 @@
   border-radius: 50px;
   font-size: 0.75rem;
   font-weight: 600;
-  
+
   &.status-selected {
     background-color: var(--success-bg);
     color: var(--success-text);
   }
-  
+
   &.status-rejected {
     background-color: var(--danger-bg);
     color: var(--danger-text);
   }
-  
+
   &.status-review {
     background-color: var(--warning-bg);
     color: var(--warning-text);
@@ -74,9 +74,42 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  
+
   &:hover {
     background: #e2e8f0;
     color: var(--primary-color);
+  }
+}
+/* VIEW BUTTON — Primary color */
+.btn-view {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: 0.2s ease-in-out;
+
+  &:hover {
+    background-color: rgba(var(--primary-color-rgb), 0.85);
+    transform: translateY(-1px);
+  }
+}
+
+/* WITHDRAW BUTTON — Soft danger (light red/pink) */
+.btn-withdraw {
+  background-color: #ffe5e5; /* light soft red */
+  color: #d9534f; /* bootstrap danger shade */
+  border: 1px solid #f5c2c2;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #ffd6d6;
+    border-color: #f0bcbc;
+    color: #c0392b;
+    transform: translateY(-1px);
   }
 }

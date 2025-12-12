@@ -12,15 +12,24 @@ import { of } from 'rxjs';
 @Component({
   selector: 'app-dashboard-shell',
   standalone: true,
-  imports: [CommonModule, DashboardStatsComponent, ApplicationListComponent, RouterModule],
+  imports: [
+    CommonModule,
+    DashboardStatsComponent,
+    ApplicationListComponent,
+    RouterModule,
+  ],
   templateUrl: './dashboard-shell.component.html',
-  styleUrls: ['./dashboard-shell.component.scss']
+  styleUrls: ['./dashboard-shell.component.scss'],
 })
 export class DashboardShellComponent implements OnInit {
   recentJobs: any[] = [];
   loadingJobs = false;
 
-  constructor(private jobsService: JobsService, private auth: AuthService, private router: Router) {}
+  constructor(
+    private jobsService: JobsService,
+    private auth: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadRecentJobs();
@@ -28,7 +37,8 @@ export class DashboardShellComponent implements OnInit {
 
   loadRecentJobs() {
     this.loadingJobs = true;
-    this.jobsService.getJobs()
+    this.jobsService
+      .getJobs()
       .pipe(
         map((res: any) => {
           // Remotive API returns { jobs: [...] }
@@ -37,7 +47,7 @@ export class DashboardShellComponent implements OnInit {
           if (Array.isArray(res)) return res.slice(0, 6);
           return [];
         }),
-        catchError(err => {
+        catchError((err) => {
           console.error('Failed to load recent jobs', err);
           return of([]);
         })
@@ -50,7 +60,9 @@ export class DashboardShellComponent implements OnInit {
 
   applyFromRecent(job: any) {
     if (!this.auth.isLoggedIn()) {
-      this.router.navigate(['/login'], { queryParams: { returnUrl: `/jobs/${job.id || job.slug || ''}` }});
+      this.router.navigate(['/login'], {
+        queryParams: { returnUrl: `/jobs/${job.id || job.slug || ''}` },
+      });
       return;
     }
     // If logged in, navigate to job details or open application modal

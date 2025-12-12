@@ -1,43 +1,68 @@
-/* Hero Section with Soft Gradient */
+@use "sass:color";
+
+/* home.component.scss (fixed) */
+
+$primary-purple: #5e35b1;
+
 .hero-section {
   padding: 100px 0 80px;
-  background: radial-gradient(circle at 10% 20%, rgb(242, 235, 255) 0%, rgb(255, 255, 255) 90%);
+  background: radial-gradient(
+    circle at 10% 20%,
+    rgb(242, 235, 255) 0%,
+    rgb(255, 255, 255) 90%
+  );
 }
 
-/* Gradient Text Effect */
 .text-gradient {
-  background: -webkit-linear-gradient(45deg, #5e35b1, #ec4899);
+  background: -webkit-linear-gradient(45deg, $primary-purple, #ec4899);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Custom Search Box */
 .search-box {
   border: 1px solid #e2e8f0;
   transition: box-shadow 0.3s;
-  
-  &:hover, &:focus-within {
+
+  &:hover,
+  &:focus-within {
     box-shadow: 0 10px 25px -5px rgba(94, 53, 177, 0.15) !important;
-    border-color: var(--primary-color);
+    border-color: $primary-purple;
   }
-  
+
   input {
     font-size: 1.1rem;
     background: transparent;
   }
-  
+
   .btn-primary {
-    background-color: var(--primary-color);
+    background-color: $primary-purple;
     border: none;
     font-weight: 600;
-    
+
     &:hover {
-      background-color: darken(#5e35b1, 10%);
+      background-color: color.adjust($primary-purple, $lightness: -10%);
     }
   }
 }
 
 /* Job Cards Styling */
+/* Avatar for featured job cards */
+.job-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--primary-light);
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  user-select: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
 .card-custom {
   background: white;
   border-radius: 16px;
@@ -59,15 +84,246 @@
   justify-content: center;
   align-items: center;
   font-weight: 800;
-  color: var(--primary-color);
+  color: $primary-purple;
 }
 
 .grayscale-logos {
   opacity: 0.4;
   filter: grayscale(100%);
   transition: opacity 0.3s;
-  
+
   &:hover {
     opacity: 0.8;
+  }
+}
+/* Horizontal full-detail featured jobs scroll */
+
+/* Featured jobs — uses global CSS variables from styles.scss */
+
+/* Horizontal scroll wrapper */
+.featured-scroll-wrapper {
+  width: 100%;
+  overflow: hidden;
+  padding: 0.5rem 0;
+}
+
+.featured-scroll-track {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 0.5rem;
+  -webkit-overflow-scrolling: touch;
+
+  /* subtle, thin scrollbar */
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+  }
+}
+
+/* Card Styling - keep consistent with global .card-custom */
+.featured-job-card {
+  flex: 0 0 320px;
+  border: none;
+  border-radius: 12px;
+  padding: 0;
+  overflow: hidden;
+  background: var(--card-bg);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+
+  .card-body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .job-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+  }
+
+  .job-meta {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+    margin-bottom: 0.75rem;
+  }
+}
+
+/* Job type badge: use light purple background + deep purple text */
+.job-type-badge {
+  background: var(--primary-light);
+  color: var(--primary-color);
+  padding: 0.28rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+/* Primary purple Apply button - uses exact global primary color */
+.btn-purple {
+  background: var(--primary-color) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: 0 6px 14px rgba(94, 53, 177, 0.12);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.btn-purple:hover,
+.btn-purple:focus {
+  background: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(94, 53, 177, 0.16);
+}
+
+/* Outline variant matching primary */
+.btn-outline-purple {
+  color: var(--primary-color) !important;
+  border: 1px solid var(--primary-color) !important;
+  background: transparent !important;
+  transition: background-color 0.12s ease, color 0.12s ease,
+    transform 0.12s ease;
+}
+
+.btn-outline-purple:hover,
+.btn-outline-purple:focus {
+  background: var(--primary-color);
+  color: white !important;
+  transform: translateY(-2px);
+}
+
+/* small utility spacing inside the card */
+.featured-job-card .mt-auto {
+  margin-top: auto !important;
+}
+
+/* responsive adjustments */
+@media (max-width: 768px) {
+  .featured-job-card {
+    flex: 0 0 88%;
+    min-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .featured-job-card {
+    flex: 0 0 92%;
+    min-width: 280px;
+  }
+}
+
+/* Companies Hiring strip */
+/* Companies Hiring — improved (no overlapping) */
+.companies-hiring-section {
+  background: var(--card-bg);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+
+  .container {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+
+  h5 {
+    font-size: 1rem;
+    color: var(--text-dark);
+  }
+
+  /* Flex container: wrap on larger screens, scroll on small screens */
+  .company-strip {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.5rem 0;
+    justify-content: flex-start;
+    /* allow wrap by default so long names go to new line and don't overlap */
+    flex-wrap: wrap;
+  }
+
+  /* Individual pill — constrained width, ellipsis, accessible */
+  .company-pill,
+  .company-item {
+    flex: 0 0 auto; /* don't stretch, keep intrinsic width */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.45rem 0.9rem;
+    background: var(--primary-light);
+    color: var(--primary-color);
+    border-radius: 999px;
+    font-weight: 600;
+    white-space: nowrap; /* keep text on single line inside pill */
+    max-width: 220px; /* prevents very long names from overflowing */
+    overflow: hidden; /* required for ellipsis */
+    text-overflow: ellipsis; /* show "..." when too long */
+    box-sizing: border-box;
+    transition: transform 0.14s ease, box-shadow 0.14s ease;
+    cursor: default;
+  }
+
+  /* Hover / focus visual */
+  .company-pill:hover,
+  .company-pill:focus,
+  .company-item:hover,
+  .company-item:focus {
+    background: var(--primary-color);
+    color: #fff;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    outline: none;
+  }
+
+  /* Small screens: use horizontal scroll (no wrap) to preserve space */
+  @media (max-width: 767.98px) {
+    .company-strip {
+      flex-wrap: nowrap; /* single row */
+      overflow-x: auto; /* horizontal scroll */
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 0.5rem;
+    }
+
+    .company-pill,
+    .company-item {
+      max-width: 160px; /* a bit narrower on small screens */
+      padding: 0.35rem 0.75rem;
+      margin-right: 0.35rem;
+    }
+
+    /* Scrollbar styling (optional) */
+    .company-strip::-webkit-scrollbar {
+      height: 8px;
+    }
+    .company-strip::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.06);
+      border-radius: 6px;
+    }
+  }
+
+  /* Large screens: slightly larger pills and extra gap */
+  @media (min-width: 992px) {
+    .company-strip {
+      gap: 1rem;
+    }
+    .company-pill,
+    .company-item {
+      max-width: 240px;
+      padding: 0.5rem 1rem;
+    }
+  }
+
+  /* Extra small tweak for very long names: allow wrapping inside pill label if needed */
+  .company-pill.wrap-allowed,
+  .company-item.wrap-allowed {
+    white-space: normal;
+    max-width: 260px;
   }
 }

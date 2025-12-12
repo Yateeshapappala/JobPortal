@@ -1,4 +1,20 @@
-@import 'ngx-toastr/toastr';
+/* Modernized global styles.scss */
+
+/* If you want to import ngx-toastr using the module system try @use first.
+   If your version of ngx-toastr doesn't expose a module stylesheet, fall back to @import.
+*/
+
+/* Preferred (may work if package exposes module entry) */
+@use "sass:color";
+
+/* Fallback: if the @use above for ngx-toastr fails in your build,
+   comment out the @use below and uncomment the @import line further down.
+*/
+ @use "ngx-toastr/toastr";
+
+/* Fallback (older packages) - uncomment if @use fails:
+   @import 'ngx-toastr/toastr';
+*/
 
 :root {
   --primary-color: #5e35b1; /* Deep Purple */
@@ -11,17 +27,25 @@
   --warning-text: #92400e;  /* Deep Yellow text */
   --danger-bg: #fee2e2;     /* Soft Red bg */
   --danger-text: #991b1b;   /* Deep Red text */
+  --card-bg: #ffffff;
+  --body-bg: #f8f9fa;
 }
 
+/* Sass helpers */
+$primary-purple: #5e35b1 !default;
+$primary-purple-dark: color.adjust($primary-purple, $lightness: -12%);
+$primary-purple-mix-10: color.mix($primary-purple, #ffffff, $weight: 10%);
+
+/* global base */
 body {
-  background-color: #f8f9fa; /* Light gray background */
-  font-family: 'Inter', sans-serif;
+  background-color: var(--body-bg);
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   color: var(--text-dark);
 }
 
 /* Global Card Style */
 .card-custom {
-  background: white;
+  background: var(--card-bg);
   border: none;
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
@@ -32,3 +56,18 @@ body {
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   }
 }
+
+/* Small brand helper */
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: $primary-purple;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+/* Optionally import more utility classes from bootstrap via angular.json styles or CDN */

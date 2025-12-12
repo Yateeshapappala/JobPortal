@@ -1,59 +1,130 @@
-<!-- dashboard-shell.component.html -->
-<div class="container py-5">
-  <div class="row justify-content-center">
-    <div class="col-lg-12">
-      
-      <div class="header-section d-flex justify-content-between align-items-center mb-4">
-        <div>
-          <h2 class="fw-bold mb-1">My Dashboard</h2>
-          <p class="text-muted">Welcome back, here is your application overview.</p>
-        </div>
-        <button class="btn btn-find-jobs px-4 py-2" routerLink="/jobs">
-          + Find Jobs
-        </button>
-      </div>
-
-      <!-- Stats row (keeps your existing component) -->
-      <app-dashboard-stats></app-dashboard-stats>
-
-      <!-- Main content: left 70% applications, right 30% recent jobs -->
-      <div class="row mt-4">
-        <div class="col-lg-8">
-          <!-- Application History (left, ~70%) -->
-          <app-application-list></app-application-list>
+<!-- dashboard-shell.component.html (updated to use Home-style job cards in Recent Jobs column) -->
+<div class="dashboard-wrapper">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-12">
+        <div
+          class="header-section d-flex justify-content-between align-items-center mb-4"
+        >
+          <div>
+            <h2 class="dashboard-title fw-bold mb-1">My Dashboard</h2>
+            <p class="text-muted">
+              Welcome back, here is your application overview.
+            </p>
+          </div>
+          <button class="btn btn-find-jobs px-4 py-2" routerLink="/jobs">
+            + Find Jobs
+          </button>
         </div>
 
-        <div class="col-lg-4">
-          <!-- Recent Jobs (right, ~30%) -->
-          <div class="card-custom p-4 mb-4">
-            <h5 class="fw-bold mb-3">Recent Jobs</h5>
+        <!-- Stats row (keeps your existing component) -->
+        <app-dashboard-stats></app-dashboard-stats>
 
-            <div *ngIf="loadingJobs" class="text-center py-4">Loading...</div>
+        <!-- Main content: left 70% applications, right 30% recent jobs -->
+        <div class="row mt-4">
+          <div class="col-lg-8">
+            <!-- Application History (left, ~70%) -->
+            <app-application-list></app-application-list>
+          </div>
 
-            <div *ngIf="!loadingJobs && recentJobs.length === 0" class="text-muted">No recent jobs found.</div>
+          <div class="col-lg-4">
+            <!-- Recent Jobs (right, ~30%) -->
+            <div class="card-custom p-4 mb-4">
+              <h5 class="fw-bold mb-3">Recent Jobs</h5>
 
-            <div *ngFor="let job of recentJobs" class="recent-job-item d-flex align-items-start gap-3 mb-3">
-              <div class="company-logo-sm">{{ (job.company_name || job.company || job.company_name) ? (job.company_name || job.company).charAt(0) : 'J' }}</div>
-              <div class="flex-fill">
-                <div class="d-flex justify-content-between">
-                  <div>
-                    <div class="fw-bold small">{{ job.title || job.job_title }}</div>
-                    <div class="small text-muted">{{ job.company_name || job.company }}</div>
-                  </div>
-                  <div>
-                    <button class="btn btn-sm btn-outline-primary" (click)="applyFromRecent(job)">Apply</button>
-                  </div>
-                </div>
+              <div *ngIf="loadingJobs" class="text-center py-4">Loading...</div>
+
+              <div
+                *ngIf="!loadingJobs && recentJobs.length === 0"
+                class="text-muted"
+              >
+                No recent jobs found.
               </div>
-            </div>
 
-            <div class="text-end mt-2">
-              <a routerLink="/jobs" class="small fw-bold text-primary">View all jobs &rarr;</a>
+              <!-- START: featured-style job cards (compact variant) -->
+              <!-- START: Home-style compact job cards (no inline styles) -->
+              <div
+                *ngIf="!loadingJobs && recentJobs.length > 0"
+                class="d-grid gap-3"
+              >
+                <article
+                  class="card featured-job-card job-card-compact"
+                  *ngFor="let job of recentJobs | slice : 0 : 3"
+                >
+                  <div class="card-body d-flex flex-column job-card-body">
+                    <div class="d-flex gap-3 align-items-start">
+                      <!-- Logo -->
+                      <div class="job-card-logo">
+                        <ng-container
+                          *ngIf="job.company_logo_url; else initialLogo"
+                        >
+                          <img
+                            [src]="job.company_logo_url"
+                            alt="logo"
+                            class="job-card-logo-img"
+                          />
+                        </ng-container>
+
+                        <ng-template #initialLogo>
+                          <div class="job-card-logo-fallback">
+                            {{
+                              (job.company_name || job.company || "J").charAt(0)
+                            }}
+                          </div>
+                        </ng-template>
+                      </div>
+
+                      <!-- Main Body -->
+                      <div class="flex-grow-1">
+                        <h6 class="job-card-title">
+                          {{ job.title || job.job_title || "Untitled Role" }}
+                        </h6>
+
+                        <div class="job-card-meta">
+                          <span class="badge job-type-badge me-2">
+                            {{ job.job_type || job.type || "Remote" }}
+                          </span>
+                          <span
+                            >💰
+                            {{
+                              job.salary || job.salary_range || "Not Disclosed"
+                            }}</span
+                          >
+                        </div>
+
+                        <div class="job-card-location">
+                          📍
+                          {{
+                            job.candidate_required_location ||
+                              job.location ||
+                              "Remote"
+                          }}
+                        </div>
+                      </div>
+
+                      <!-- Actions -->
+                      <div class="job-card-actions">
+                        <button
+                          class="btn btn-purple job-apply-btn btn-sm rounded-pill px-3"
+                          (click)="applyFromRecent(job)"
+                        >
+                          Apply
+                        </button>
+                        <a
+                          [routerLink]="['/jobs', job.id]"
+                          class="job-details-light"
+                          >Details →</a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+              <!-- END: Home-style job cards -->
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </div>

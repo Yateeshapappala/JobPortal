@@ -6,11 +6,14 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DashboardService {
   // Observable of all apps from storage
-  constructor(private storage: ApplicationStorageService, private auth: AuthService) { }
+  constructor(
+    private storage: ApplicationStorageService,
+    private auth: AuthService
+  ) {}
 
   getAllApplications(): Application[] {
     return this.storage.getApplications();
@@ -19,7 +22,7 @@ export class DashboardService {
   // Observable: user-specific applications (updates live)
   getUserApplications$(): Observable<Application[]> {
     return this.storage.apps$.pipe(
-      map(all => {
+      map((all) => {
         const user = this.auth.getUser();
         if (!user) return [];
         const email = (user as any).email?.toLowerCase();
@@ -27,10 +30,14 @@ export class DashboardService {
 
         const filtered = all.filter((app: any) => {
           if (!app) return false;
-          if (app.userEmail && email) return ('' + app.userEmail).toLowerCase() === email;
-          if (app.applicantEmail && email) return ('' + app.applicantEmail).toLowerCase() === email;
-          if (app.user && username) return ('' + app.user).toLowerCase() === username;
-          if (app.username && username) return ('' + app.username).toLowerCase() === username;
+          if (app.userEmail && email)
+            return ('' + app.userEmail).toLowerCase() === email;
+          if (app.applicantEmail && email)
+            return ('' + app.applicantEmail).toLowerCase() === email;
+          if (app.user && username)
+            return ('' + app.user).toLowerCase() === username;
+          if (app.username && username)
+            return ('' + app.username).toLowerCase() === username;
           return false;
         });
         return filtered;
@@ -46,10 +53,14 @@ export class DashboardService {
     const email = (user as any).email?.toLowerCase();
     const username = (user as any).username?.toLowerCase();
     const filtered = all.filter((app: any) => {
-      if (app.userEmail && email) return ('' + app.userEmail).toLowerCase() === email;
-      if (app.applicantEmail && email) return ('' + app.applicantEmail).toLowerCase() === email;
-      if (app.user && username) return ('' + app.user).toLowerCase() === username;
-      if (app.username && username) return ('' + app.username).toLowerCase() === username;
+      if (app.userEmail && email)
+        return ('' + app.userEmail).toLowerCase() === email;
+      if (app.applicantEmail && email)
+        return ('' + app.applicantEmail).toLowerCase() === email;
+      if (app.user && username)
+        return ('' + app.user).toLowerCase() === username;
+      if (app.username && username)
+        return ('' + app.username).toLowerCase() === username;
       return false;
     });
     return filtered;
@@ -59,9 +70,11 @@ export class DashboardService {
     const apps = this.getUserApplications();
     return {
       total: apps.length,
-      selected: apps.filter(a => a.status === 'SELECTED').length,
-      pending: apps.filter(a => a.status === 'IN-REVIEW' || a.status === 'REVIEWED').length,
-      rejected: apps.filter(a => a.status === 'REJECTED').length
+      selected: apps.filter((a) => a.status === 'SELECTED').length,
+      pending: apps.filter(
+        (a) => a.status === 'IN-REVIEW' || a.status === 'REVIEWED'
+      ).length,
+      rejected: apps.filter((a) => a.status === 'REJECTED').length,
     };
   }
 }

@@ -1,50 +1,86 @@
 <nav class="navbar navbar-expand-lg sticky-top">
   <div class="container">
     <!-- Brand (now routes to dashboard when authenticated) -->
-    <a class="navbar-brand d-flex align-items-center" (click)="onBrandClick()" style="cursor:pointer">
+    <a
+      class="navbar-brand d-flex align-items-center"
+      (click)="onBrandClick()"
+      style="cursor: pointer"
+    >
       <div class="brand-logo me-2">J</div>
       <span class="brand-text">JobPortal</span>
     </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+    >
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <!-- left side: only show Find Jobs when NOT on dashboard -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-4">
-  <li class="nav-item" *ngIf="!isDashboardOrJobsPage">
-    <a class="nav-link" routerLink="/jobs" routerLinkActive="active">Find Jobs</a>
-  </li>
-</ul>
+        <li class="nav-item" *ngIf="!isJobsPage">
+          <a class="nav-link" routerLink="/jobs" routerLinkActive="active"
+            >Find Jobs</a
+          >
+        </li>
+      </ul>
 
       <div class="d-flex align-items-center position-relative">
         <!-- Guest actions -->
-        <ng-container *ngIf="!isLoggedIn">
-          <a routerLink="/login" class="btn btn-register me-3">Login</a>
-          <a routerLink="/register" class="btn btn-register">Register</a>
+        <ng-container
+          *ngIf="!isLoggedIn && (isHomePage || showGuestAuthOnJobs)"
+        >
+          <a
+            routerLink="/login"
+            class="btn btn-register rounded-pill px-4 py-2 me-3"
+            >Login</a
+          >
+          <a
+            routerLink="/register"
+            class="btn btn-register rounded-pill px-4 py-2"
+            >Register</a
+          >
         </ng-container>
 
         <!-- Authenticated: username + dropdown -->
         <ng-container *ngIf="isLoggedIn">
-
           <div class="dropdown">
             <!-- use attribute binding for aria-expanded -->
-            <button class="btn btn-profile d-flex align-items-center gap-2"
-                    (click)="toggleMenu()"
-                    type="button"
-                    aria-haspopup="true"
-                    [attr.aria-expanded]="showMenu">
+            <button
+              class="btn btn-profile d-flex align-items-center gap-2"
+              (click)="toggleMenu()"
+              type="button"
+              aria-haspopup="true"
+              [attr.aria-expanded]="showMenu"
+            >
               <!-- safe char extraction without optional chaining -->
-              <div class="avatar-circle">{{ username ? username.charAt(0) : '' }}</div>
+              <div class="avatar-circle">
+                {{ username ? username.charAt(0) : "" }}
+              </div>
               <span class="small fw-bold">{{ username }}</span>
               <i class="small text-muted">▾</i>
             </button>
 
-            <ul class="dropdown-menu dropdown-menu-end mt-2" [class.show]="showMenu" style="min-width:160px;">
-              <li><button class="dropdown-item" (click)="goToProfile()">Profile</button></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><button class="dropdown-item text-danger" (click)="logout()">Logout</button></li>
+            <ul
+              class="dropdown-menu dropdown-menu-end mt-2"
+              [class.show]="showMenu"
+              style="min-width: 160px"
+            >
+              <li>
+                <button class="dropdown-item" (click)="goToProfile()">
+                  Profile
+                </button>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <button class="dropdown-item text-danger" (click)="logout()">
+                  Logout
+                </button>
+              </li>
             </ul>
           </div>
         </ng-container>

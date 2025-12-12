@@ -1,6 +1,6 @@
 <div class="card-custom p-4">
   <h5 class="fw-bold mb-4">Recent Applications</h5>
-  
+
   <div class="table-responsive">
     <table class="table align-middle">
       <thead>
@@ -15,58 +15,113 @@
       <tbody>
         <tr *ngFor="let app of applications">
           <td>
-  <div class="d-flex align-items-center">
-    <!-- safe company initials -->
-    <div class="company-logo me-3">{{ app.company ? app.company.charAt(0) : '' }}</div>
-    <span class="company-name">{{ app.company }}</span>
-  </div>
-</td>
+            <div class="d-flex align-items-center">
+              <!-- safe company initials -->
+              <div class="company-logo me-3">
+                {{ app.company ? app.company.charAt(0) : "" }}
+              </div>
+              <span class="company-name">{{ app.company }}</span>
+            </div>
+          </td>
 
           <td class="text-muted">{{ app.jobTitle }}</td>
 
-          <td class="text-muted">{{ app.dateApplied | date:'mediumDate' }}</td>
+          <td class="text-muted">
+            {{ app.dateApplied | date : "mediumDate" }}
+          </td>
 
           <td>
-            <span class="badge-custom" 
+            <span
+              class="badge-custom"
               [ngClass]="{
                 'status-selected': app.status === 'SELECTED',
                 'status-rejected': app.status === 'REJECTED',
-                'status-review': app.status === 'IN-REVIEW' || app.status === 'REVIEWED'
-              }">
+                'status-review':
+                  app.status === 'IN-REVIEW' || app.status === 'REVIEWED'
+              }"
+            >
               {{ app.status }}
             </span>
           </td>
 
           <td class="text-end">
-            <button class="btn btn-sm btn-outline-secondary me-2" (click)="viewApplication(app)">View</button>
-            <button class="btn btn-sm btn-outline-danger" (click)="confirmWithdraw(app)">Withdraw</button>
+            <button
+              class="btn btn-sm btn-view me-2"
+              (click)="viewApplication(app)"
+            >
+              View
+            </button>
+
+            <button
+              class="btn btn-sm btn-withdraw"
+              (click)="confirmWithdraw(app)"
+            >
+              Withdraw
+            </button>
           </td>
         </tr>
         <tr *ngIf="applications.length === 0">
-          <td colspan="5" class="text-center text-muted py-4">You have not applied to any jobs yet.</td>
+          <td colspan="5" class="text-center text-muted py-4">
+            You have not applied to any jobs yet.
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
 
   <!-- Simple in-page modal for viewing an application -->
-  <div class="modal-backdrop" *ngIf="showViewModal" style="position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1050;"></div>
-  <div class="modal d-block" tabindex="-1" role="dialog" *ngIf="showViewModal" style="z-index:1060;">
+  <div
+    class="modal-backdrop"
+    *ngIf="showViewModal"
+    style="
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1050;
+    "
+  ></div>
+  <div
+    class="modal d-block"
+    tabindex="-1"
+    role="dialog"
+    *ngIf="showViewModal"
+    style="z-index: 1060"
+  >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">{{ selectedApp?.jobTitle }} — {{ selectedApp?.company }}</h5>
-          <button type="button" class="btn-close" (click)="closeView()"></button>
+          <h5 class="modal-title">
+            {{ selectedApp?.jobTitle }} — {{ selectedApp?.company }}
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            (click)="closeView()"
+          ></button>
         </div>
         <div class="modal-body">
-  <p><strong>Status:</strong> {{ selectedApp?.status }}</p>
-  <p><strong>Applied:</strong> {{ selectedApp?.dateApplied | date:'medium' }}</p>
-  <p *ngIf="selectedApp?.logoUrl"><img [src]="selectedApp?.logoUrl" alt="logo" style="max-height:50px"></p>
-  <!-- Add more fields here (cover letter, resume link) if present -->
-</div>
+          <p><strong>Status:</strong> {{ selectedApp?.status }}</p>
+          <p>
+            <strong>Applied:</strong>
+            {{ selectedApp?.dateApplied | date : "medium" }}
+          </p>
+          <p *ngIf="selectedApp?.logoUrl">
+            <img
+              [src]="selectedApp?.logoUrl"
+              alt="logo"
+              style="max-height: 50px"
+            />
+          </p>
+          <!-- Add more fields here (cover letter, resume link) if present -->
+        </div>
         <div class="modal-footer">
           <button class="btn btn-secondary" (click)="closeView()">Close</button>
-          <button class="btn btn-danger" (click)="confirmWithdraw(selectedApp!)">Withdraw</button>
+          <button
+            class="btn btn-danger"
+            (click)="confirmWithdraw(selectedApp!)"
+          >
+            Withdraw
+          </button>
         </div>
       </div>
     </div>

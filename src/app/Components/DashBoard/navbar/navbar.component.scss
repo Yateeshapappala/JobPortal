@@ -1,17 +1,30 @@
-// Define your theme color (The purple from your screenshot)
+@use "sass:color";
+
+/* navbar.component.scss (fixed) */
+
 $primary-purple: #6f42c1;
 $primary-purple-dark: #5a32a3;
 
+/* Precomputed rgba color for shadows */
+$primary-purple-rgba: rgba(111, 66, 193, 0.12);
+
 .navbar {
-  // Add a subtle shadow so it pops off the white background
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.04);
   padding: 0.8rem 0;
+  background-color: #ffffff !important; // solid white background
+  backdrop-filter: blur(6px); // optional: nice modern look
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 
-  // Logo Styling
   .brand-logo {
     width: 36px;
     height: 36px;
-    background: linear-gradient(135deg, $primary-purple 0%, $primary-purple-dark 100%);
+    background: linear-gradient(
+      135deg,
+      $primary-purple 0%,
+      $primary-purple-dark 100%
+    );
     color: white;
     border-radius: 8px;
     display: flex;
@@ -28,10 +41,10 @@ $primary-purple-dark: #5a32a3;
     color: #212529;
   }
 
-  // Navigation Links
   .nav-link {
-    color: #6c757d; // Bootstrap grey
+    color: $primary-purple;
     font-weight: 500;
+    font-size: large;
     padding: 0.5rem 1rem;
     transition: color 0.2s ease;
 
@@ -39,41 +52,33 @@ $primary-purple-dark: #5a32a3;
       color: $primary-purple;
     }
 
-    // This targets the class added by routerLinkActive
     &.active {
       color: $primary-purple !important;
       font-weight: 700;
     }
   }
 
-  // Register Button (Pill shape)
   .btn-register {
-    background-color: $primary-purple;
-    color: white;
-    border-radius: 50px; // Makes it pill-shaped
-    padding: 0.5rem 1.8rem;
+    background-color: var(--primary-color);
+    border: none;
     font-weight: 600;
-    transition: all 0.3s ease;
+    color: #ffffff;
 
     &:hover {
-      background-color: $primary-purple-dark;
-      transform: translateY(-2px); // Slight lift effect
-      box-shadow: 0 4px 10px rgba($primary-purple, 0.3);
+      background-color: color.adjust(#5e35b1, $lightness: -10%);
     }
   }
 
-  // User Avatar (Circle with initials)
   .avatar-circle {
     width: 38px;
     height: 38px;
-    // Using SCSS 'mix' to create a light version of your purple
-    background-color: mix($primary-purple, white, 10%); 
+    background-color: color.mix($primary-purple, #ffffff, $weight: 10%);
     color: $primary-purple;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
-    border: 1px solid mix($primary-purple, white, 20%);
+    border: 1px solid color.mix($primary-purple, #ffffff, $weight: 20%);
   }
 }

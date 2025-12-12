@@ -1,16 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardService } from '../../../Services/dashboard.service';
-import { Application } from '../../../Models/application.model';
-import { ApplicationStorageService } from '../../../Services/application-storage.service';
 import { Subscription } from 'rxjs';
+import { ApplicationStorageService } from '../../../Services/application-storage.service';
+import { AuthService } from '../../../Services/Auth.service';
+import { Application } from '../../../Models/application.model';
 
 @Component({
   selector: 'app-application-list',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './application-list.component.html',
-  styleUrls: ['./application-list.component.scss']
+  styleUrls: ['./application-list.component.scss'],
 })
 export class ApplicationListComponent implements OnInit, OnDestroy {
   applications: Application[] = [];
@@ -18,13 +18,38 @@ export class ApplicationListComponent implements OnInit, OnDestroy {
   showViewModal = false;
   private sub = new Subscription();
 
-  constructor(private dashService: DashboardService, private storage: ApplicationStorageService) {}
+  constructor(
+    private storage: ApplicationStorageService,
+    private auth: AuthService
+  ) {}
 
   ngOnInit() {
-    // subscribe to live user-specific applications
+    // Subscribe to the central apps$ stream and filter to current user
     this.sub.add(
-      this.dashService.getUserApplications$().subscribe(list => {
-        this.applications = list;
+      this.storage.apps$.subscribe((all) => {
+        const user = this.auth.getUser();
+        const userEmail = user?.email || user?.username || undefined;
+        if (userEmail) {
+          this.applications = (all || []).filter(
+            (a) => (a.userEmail || '').toLowerCase() === userEmail.toLowerCase()
+          );
+        } else {
+          // If not logged in, show nothing
+          this.applications = [];
+        }
+
+        // sort newest-first
+        this.applications.sort((a, b) => {
+          const da =
+            a.dateApplied instanceof Date
+              ? a.dateApplied.getTime()
+              : new Date(a.dateApplied).getTime();
+          const db =
+            b.dateApplied instanceof Date
+              ? b.dateApplied.getTime()
+              : new Date(b.dateApplied).getTime();
+          return db - da;
+        });
       })
     );
   }
@@ -44,10 +69,11 @@ export class ApplicationListComponent implements OnInit, OnDestroy {
   }
 
   confirmWithdraw(app: Application) {
-    const ok = confirm('Withdraw this application? This action cannot be undone.');
+    const ok = confirm(
+      'Withdraw this application? This action cannot be undone.'
+    );
     if (!ok) return;
     this.storage.removeApplication(app.id);
-    // no manual reload required — subscription will update applications automatically
     alert('Application withdrawn.');
   }
 }

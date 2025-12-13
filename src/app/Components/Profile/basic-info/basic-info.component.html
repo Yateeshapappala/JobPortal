@@ -1,65 +1,56 @@
 <!-- VIEW MODE -->
-<div *ngIf="!editMode">
-  <div class="d-flex gap-3 align-items-center">
-    <div>
-      <h5 class="fw-semibold">{{ user?.fullName }}</h5>
-      <p class="text-muted small mb-1">{{ user?.email }}</p>
-      <p class="text-muted small mb-1">{{ user?.mobile }}</p>
-      <p class="text-muted small">{{ user?.city }}, {{ user?.state }}</p>
-    </div>
+@if(!editMode){
+<div class="info-view">
+  <div>
+    <h5 class="info-name">{{ user?.fullName }}</h5>
+    <p class="info-text">{{ user?.email }}</p>
+    <p class="info-text">{{ user?.mobile }}</p>
+    <p class="info-text">{{ user?.city }}, {{ user?.state }}</p>
   </div>
 </div>
+}
 
 <!-- EDIT MODE -->
-<form *ngIf="editMode" [formGroup]="form" (ngSubmit)="save()" class="edit-form">
+@if(editMode){
+<form [formGroup]="form" (ngSubmit)="save()" class="edit-form">
   <div class="row g-3">
     <div class="col-md-9">
       <div class="row g-3">
         <!-- FULL NAME -->
         <div class="col-6">
           <input
-            class="form-control"
+            class="form-control custom-input"
             placeholder="Full name"
             formControlName="fullName"
           />
-
-          <div class="text-danger small" *ngIf="form.get('fullName')?.invalid">
-            Full name is required.
-          </div>
+          @if(form.get('fullName')?.invalid){
+          <div class="error-text">Full name is required.</div>
+          }
         </div>
 
         <!-- EMAIL -->
         <div class="col-6">
           <input
-            class="form-control"
+            class="form-control custom-input"
             placeholder="Email"
             formControlName="email"
           />
-
-          <div
-            class="text-danger small"
-            *ngIf="form.get('email')?.errors?.['required']"
-          >
-            Email is required.
-          </div>
-          <div
-            class="text-danger small"
-            *ngIf="form.get('email')?.errors?.['email']"
-          >
-            Enter a valid email.
-          </div>
+          @if(form.get('email')?.errors?.['required']){
+          <div class="error-text">Email is required.</div>
+          } @if(form.get('email')?.errors?.['email']){
+          <div class="error-text" *ngIf="">Enter a valid email.</div>
+          }
         </div>
 
         <!-- MOBILE -->
         <div class="col-4">
           <input
-            class="form-control"
+            class="form-control custom-input"
             placeholder="Mobile"
             formControlName="mobile"
           />
-
           <div
-            class="text-danger small"
+            class="error-text"
             *ngIf="form.get('mobile')?.errors?.['pattern']"
           >
             Mobile must be 10 digits.
@@ -68,10 +59,13 @@
 
         <!-- DOB -->
         <div class="col-4">
-          <input type="date" class="form-control" formControlName="dob" />
-
+          <input
+            type="date"
+            class="form-control custom-input"
+            formControlName="dob"
+          />
           <div
-            class="text-danger small"
+            class="error-text"
             *ngIf="form.get('dob')?.errors?.['invalidDob']"
           >
             DOB must be a past date and age must be 18 or above.
@@ -80,7 +74,7 @@
 
         <!-- GENDER -->
         <div class="col-4">
-          <select class="form-select" formControlName="gender">
+          <select class="form-select custom-input" formControlName="gender">
             <option value="">Gender</option>
             <option>Male</option>
             <option>Female</option>
@@ -91,7 +85,7 @@
         <!-- CITY -->
         <div class="col-4">
           <input
-            class="form-control"
+            class="form-control custom-input"
             placeholder="City"
             formControlName="city"
           />
@@ -100,7 +94,7 @@
         <!-- STATE -->
         <div class="col-4">
           <input
-            class="form-control"
+            class="form-control custom-input"
             placeholder="State"
             formControlName="state"
           />
@@ -109,22 +103,22 @@
         <!-- COUNTRY -->
         <div class="col-4">
           <input
-            class="form-control"
+            class="form-control custom-input"
             placeholder="Country"
             formControlName="country"
           />
         </div>
       </div>
-
-      <div class="text-end mt-3">
-        <button
-          type="submit"
-          class="btn btn-success btn-sm"
-          [disabled]="form.invalid"
-        >
-          Save
-        </button>
-      </div>
     </div>
   </div>
+  <div class="text-end mt-3">
+    <button
+      type="submit"
+      class="btn btn-primary custom-save-btn"
+      [disabled]="form.invalid"
+    >
+      Save Changes
+    </button>
+  </div>
 </form>
+}

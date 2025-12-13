@@ -1,77 +1,86 @@
 <!-- VIEW MODE -->
-<div *ngIf="!editMode" class="view">
-  <p *ngIf="user?.additional?.languages?.length">
+@if(!editMode){
+<div class="info-view">
+  @if(user?.additional?.languages?.length){
+  <p class="info-text">
     <strong>Languages:</strong>
     {{ user?.additional?.languages?.join(", ") }}
   </p>
-
-  <p *ngIf="user?.additional?.certifications?.length">
+  } @if(user?.additional?.certifications?.length){
+  <p class="info-text">
     <strong>Certifications:</strong>
     {{ user?.additional?.certifications?.join(", ") }}
   </p>
-
-  <p *ngIf="user?.additional?.achievements?.length">
+  } @if(user?.additional?.achievements?.length){
+  <p class="info-text">
     <strong>Achievements:</strong>
     {{ user?.additional?.achievements?.join(", ") }}
   </p>
+  } @if(!user?.additional || (!user?.additional?.languages?.length &&
+  !user?.additional?.certifications?.length &&
+  !user?.additional?.achievements?.length)){
 
-  <p *ngIf="!user?.additional">No extra details added</p>
+  <p class="info-text">No extra details added</p>
+  }
 </div>
-
+}
 <!-- EDIT MODE -->
-<form *ngIf="editMode" [formGroup]="form" (ngSubmit)="save()" class="edit">
+@if(editMode){
+<form [formGroup]="form" (ngSubmit)="save()" class="edit-form">
   <!-- LANGUAGES -->
   <div class="mb-2">
-    <label>Languages (comma separated)</label>
-    <input class="form-control" formControlName="languages" />
-
-    <div
-      class="text-danger small"
-      *ngIf="form.get('languages')?.touched && form.get('languages')?.errors"
-    >
-      Only letters and commas allowed (e.g., English, Hindi, French).
-    </div>
+    <label class="field-label">Languages (comma separated)</label>
+    <input
+      class="form-control custom-input"
+      formControlName="languages"
+      placeholder="English, Hindi, French"
+    />
+    @if(form.get('languages')?.touched && form.get('languages')?.errors){
+    <div class="error-text">Only letters and commas allowed.</div>
+    }
   </div>
 
   <!-- CERTIFICATIONS -->
   <div class="mb-2">
-    <label>Certifications (comma separated)</label>
-    <input class="form-control" formControlName="certifications" />
-
-    <div
-      class="text-danger small"
-      *ngIf="
-        form.get('certifications')?.touched &&
-        form.get('certifications')?.errors
-      "
-    >
+    <label class="field-label">Certifications (comma separated)</label>
+    <input
+      class="form-control custom-input"
+      formControlName="certifications"
+      placeholder="AWS, Azure, GCP"
+    />
+    @if(form.get('certifications')?.touched &&
+    form.get('certifications')?.errors){
+    <div class="error-text">
       Each certification must be at least 3 characters.
     </div>
+    }
   </div>
 
   <!-- ACHIEVEMENTS -->
   <div class="mb-2">
-    <label>Achievements (comma separated)</label>
-    <input class="form-control" formControlName="achievements" />
-
-    <div
-      class="text-danger small"
-      *ngIf="
-        form.get('achievements')?.touched && form.get('achievements')?.errors
-      "
-    >
+    <label class="field-label">Achievements (comma separated)</label>
+    <input
+      class="form-control custom-input"
+      formControlName="achievements"
+      placeholder="Hackathon winner, Employee of the month"
+    />
+    @if(form.get('achievements')?.touched && form.get('achievements')?.errors){
+    <div class="error-text">
       Each achievement must be at least 3 characters.
     </div>
+    }
   </div>
 
-  <div class="text-end">
+  <!-- ACTION -->
+  <div class="text-end mt-3">
     <button
       type="submit"
-      class="btn btn-success btn-sm"
+      class="btn custom-save-btn"
       [disabled]="form.invalid"
       (click)="$event.stopPropagation()"
     >
-      Save
+      Save Changes
     </button>
   </div>
 </form>
+}

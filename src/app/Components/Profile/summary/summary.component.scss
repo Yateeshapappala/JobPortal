@@ -1,0 +1,90 @@
+/* ===========================
+   VIEW MODE
+=========================== */
+
+.view {
+  padding: 4px 0;
+}
+
+.summary-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-dark);
+}
+
+.summary-text.muted {
+  color: var(--text-muted);
+}
+
+/* ===========================
+   EDIT MODE
+=========================== */
+
+.edit {
+  margin-top: 8px;
+}
+
+/* Normalize textarea to match inputs */
+.custom-input {
+  background: var(--card-bg);
+  border: 1px solid var(--primary-light);
+  border-radius: 8px;
+
+  padding: 8px 12px;            /* 🔥 MATCH Basic Info inputs */
+  font-size: 14px;
+  color: var(--text-dark);
+  line-height: 1.6;
+
+  resize: vertical;
+  min-height: 100px;
+
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Override Bootstrap blue focus */
+.custom-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+/* Dirty state */
+.custom-input.ng-dirty {
+  border-color: var(--secondary-color);
+}
+
+/* ===========================
+   ACTION BAR
+=========================== */
+
+.edit .text-end {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--primary-light);
+}
+
+/* ===========================
+   SAVE BUTTON
+=========================== */
+
+.custom-save-btn {
+  background: var(--primary-color);
+  border: none;
+  color: var(--card-bg);
+
+  font-size: 14px;
+  padding: 6px 16px;
+  border-radius: 8px;
+
+  transition: background 0.2s ease;
+}
+
+.custom-save-btn:hover {
+  background: var(--secondary-color);
+}
+
+.custom-save-btn:disabled {
+  background: var(--primary-light);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}

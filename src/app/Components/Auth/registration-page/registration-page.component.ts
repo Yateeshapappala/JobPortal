@@ -13,6 +13,8 @@ import { AuthLayoutComponent } from '../auth-layout/auth-layout.component';
 import { emailUniqueValidator } from '../../../Validators/unique-email.validator';
 import { usernameUniqueValidator } from '../../../Validators/username-unique.validator';
 import { NgClass } from '@angular/common';
+import { EmailValidator } from '../../../Validators/email.validator';
+import { fullNameValidator } from '../../../Validators/fullname.validator';
 
 @Component({
   selector: 'app-registration-page',
@@ -21,8 +23,8 @@ import { NgClass } from '@angular/common';
     NgxCaptchaModule,
     RouterLink,
     AuthLayoutComponent,
-    NgClass
-],
+    NgClass,
+  ],
   templateUrl: './registration-page.component.html',
   styleUrl: './registration-page.component.scss',
 })
@@ -47,10 +49,10 @@ export class RegistrationPageComponent {
   ngOnInit() {
     this.registerForm = this.fb.group(
       {
-        fullName: ['', Validators.required],
+        fullName: ['', [Validators.required, fullNameValidator]],
         email: [
           '',
-          [Validators.required, Validators.email],
+          [Validators.required, Validators.email, EmailValidator],
           [emailUniqueValidator()],
         ],
         username: ['', Validators.required, [usernameUniqueValidator()]],
@@ -72,14 +74,13 @@ export class RegistrationPageComponent {
 
   // Password Match Validation
   passwordMatchValidator(form: FormGroup) {
-  const password = form.get('password')?.value;
-  const confirm = form.get('confirmPassword')?.value;
+    const password = form.get('password')?.value;
+    const confirm = form.get('confirmPassword')?.value;
 
-  return password && confirm && password !== confirm
-    ? { passwordMismatch: true }
-    : null;
-}
-
+    return password && confirm && password !== confirm
+      ? { passwordMismatch: true }
+      : null;
+  }
 
   get f() {
     return this.registerForm.controls;
@@ -108,7 +109,7 @@ export class RegistrationPageComponent {
     formValue.username = formValue.username.trim().toLowerCase();
     formValue.email = formValue.email.trim().toLowerCase();
     formValue.fullName = formValue.fullName.trim();
-
+    delete formValue.confirmPassword;
     const result = this.auth.register(formValue);
 
     if (!result.success) {

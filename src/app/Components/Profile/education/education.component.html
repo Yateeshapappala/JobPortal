@@ -1,38 +1,41 @@
 <!-- VIEW MODE -->
-<div *ngIf="!editMode" class="view">
+<div *ngIf="!editMode" class="info-view">
   <div *ngFor="let e of user?.education || []" class="mb-3">
-    <h6 class="mb-0">{{ e.degree }} — {{ e.institute }}</h6>
-    <small class="text-muted"> {{ e.startDate }} — {{ e.endDate }} </small>
-    <p class="mb-0 text-muted">Score: {{ e.score }}</p>
+    <h6 class="info-name">{{ e.degree }} — {{ e.institute }}</h6>
+    <p class="info-text">{{ e.startDate }} — {{ e.endDate }}</p>
+    <p class="info-text">Score: {{ e.score }}</p>
   </div>
+
+  <p *ngIf="!(user?.education?.length)" class="info-text">
+    No education details added
+  </p>
 </div>
 
 <!-- EDIT MODE -->
-<form *ngIf="editMode" [formGroup]="form" (ngSubmit)="save()" class="edit">
+<form
+  *ngIf="editMode"
+  [formGroup]="form"
+  (ngSubmit)="save()"
+  class="edit-form"
+>
   <div formArrayName="education">
     <div
       *ngFor="let fg of education.controls; let i = index"
       [formGroupName]="i"
-      class="card p-2 mb-2"
+      class="education-card mb-2 p-2"
     >
       <div class="row g-2">
         <!-- DEGREE -->
         <div class="col-md-6">
           <input
-            class="form-control"
+            class="form-control custom-input"
             placeholder="Degree"
             formControlName="degree"
           />
-          <div
-            class="text-danger small"
-            *ngIf="fg.get('degree')?.errors?.['required']"
-          >
+          <div class="error-text" *ngIf="fg.get('degree')?.errors?.['required']">
             Degree is required.
           </div>
-          <div
-            class="text-danger small"
-            *ngIf="fg.get('degree')?.errors?.['minlength']"
-          >
+          <div class="error-text" *ngIf="fg.get('degree')?.errors?.['minlength']">
             Degree must be at least 2 characters.
           </div>
         </div>
@@ -40,12 +43,12 @@
         <!-- INSTITUTE -->
         <div class="col-md-6">
           <input
-            class="form-control"
+            class="form-control custom-input"
             placeholder="Institute"
             formControlName="institute"
           />
           <div
-            class="text-danger small"
+            class="error-text"
             *ngIf="fg.get('institute')?.errors?.['required']"
           >
             Institute name is required.
@@ -54,9 +57,13 @@
 
         <!-- START DATE -->
         <div class="col-md-3">
-          <input type="date" class="form-control" formControlName="startDate" />
+          <input
+            type="date"
+            class="form-control custom-input"
+            formControlName="startDate"
+          />
           <div
-            class="text-danger small"
+            class="error-text"
             *ngIf="fg.get('startDate')?.errors?.['invalidStart']"
           >
             Start date must be a past date.
@@ -65,14 +72,18 @@
 
         <!-- END DATE -->
         <div class="col-md-3">
-          <input type="date" class="form-control" formControlName="endDate" />
+          <input
+            type="date"
+            class="form-control custom-input"
+            formControlName="endDate"
+          />
           <div
-            class="text-danger small"
+            class="error-text"
             *ngIf="fg.get('endDate')?.errors?.['invalidEnd']"
           >
             End date must be a past date.
           </div>
-          <div class="text-danger small" *ngIf="fg.errors?.['beforeStart']">
+          <div class="error-text" *ngIf="fg.errors?.['beforeStart']">
             End date must be after start date.
           </div>
         </div>
@@ -80,23 +91,23 @@
         <!-- SCORE -->
         <div class="col-md-6">
           <input
-            class="form-control"
+            class="form-control custom-input"
             placeholder="CGPA / Percentage"
             formControlName="score"
           />
           <div
-            class="text-danger small"
+            class="error-text"
             *ngIf="fg.get('score')?.errors?.['maxlength']"
           >
             Score value is too long.
           </div>
         </div>
 
-        <!-- REMOVE BUTTON -->
+        <!-- REMOVE -->
         <div class="col-12 text-end">
           <button
             type="button"
-            class="btn btn-sm btn-danger"
+            class="btn btn-sm custom-remove-btn"
             (click)="remove(i)"
           >
             Remove
@@ -106,18 +117,23 @@
     </div>
   </div>
 
-  <div class="d-flex justify-content-between mt-2">
-    <button type="button" class="btn btn-sm btn-secondary" (click)="add()">
+  <!-- ACTIONS -->
+  <div class="d-flex justify-content-between mt-3">
+    <button
+      type="button"
+      class="btn btn-sm custom-add-btn"
+      (click)="add()"
+    >
       + Add Education
     </button>
 
     <button
       type="submit"
-      class="btn btn-success btn-sm"
+      class="btn custom-save-btn"
       [disabled]="form.invalid"
       (click)="$event.stopPropagation()"
     >
-      Save
+      Save Changes
     </button>
   </div>
 </form>

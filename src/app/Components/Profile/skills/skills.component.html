@@ -1,47 +1,65 @@
 <!-- VIEW MODE -->
-<div *ngIf="!editMode" class="view">
-  <div *ngIf="(user?.skills?.length || 0) > 0; else noskills">
-    <span *ngFor="let s of user?.skills" class="badge bg-primary me-1 mb-1">{{
-      s
-    }}</span>
+<div *ngIf="!editMode" class="info-view">
+  <div *ngIf="(user?.skills?.length || 0) > 0; else noSkills">
+    <span
+      *ngFor="let s of user?.skills"
+      class="skill-badge"
+    >
+      {{ s }}
+    </span>
   </div>
-  <ng-template #noskills><p class="text-muted">No skills added</p></ng-template>
+
+  <ng-template #noSkills>
+    <p class="info-text">No skills added</p>
+  </ng-template>
 </div>
 
 <!-- EDIT MODE -->
-<form *ngIf="editMode" [formGroup]="form" (ngSubmit)="save()" class="edit">
+<form
+  *ngIf="editMode"
+  [formGroup]="form"
+  (ngSubmit)="save()"
+  class="edit-form"
+>
   <div class="d-flex gap-2">
     <input
-      class="form-control"
+      class="form-control custom-input"
       formControlName="skillInput"
-      placeholder="Add skill and press Add"
+      placeholder="Add skill and click Add"
     />
-    <button type="button" class="btn btn-secondary btn-sm" (click)="addSkill()">
+
+    <button
+      type="button"
+      class="btn btn-sm custom-add-btn"
+      (click)="addSkill()"
+    >
       Add
     </button>
   </div>
 
+  <!-- SKILLS LIST -->
   <div class="mt-2">
     <span
       *ngFor="let s of skills; let i = index"
-      class="badge bg-secondary me-1 mb-1"
+      class="skill-badge editable"
     >
       {{ s }}
       <button
         type="button"
-        class="btn-close btn-close-white btn-sm ms-1"
+        class="btn-close skill-remove"
         (click)="remove(i)"
       ></button>
     </span>
   </div>
 
-  <div class="text-end mt-2">
+  <!-- ACTIONS -->
+  <div class="text-end mt-3">
     <button
       type="submit"
-      class="btn btn-success btn-sm"
+      class="btn custom-save-btn"
       (click)="$event.stopPropagation()"
     >
-      Save
+      Save Changes
     </button>
   </div>
 </form>

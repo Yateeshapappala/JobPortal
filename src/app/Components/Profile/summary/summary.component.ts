@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-summary',
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './summary.component.html',
+  styleUrls: ['./summary.component.scss'],
 })
 export class SummaryComponent implements OnInit {
   @Input() editMode = false; // 🔥 receives from app-profile-section

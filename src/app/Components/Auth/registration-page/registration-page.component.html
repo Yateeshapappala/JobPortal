@@ -1,126 +1,198 @@
 <app-auth-layout>
-  <div class="w-100" style="max-width: 420px">
-    <h2 class="fw-bold mb-2">Create an Account</h2>
-    <p class="text-muted mb-4">Join us and get started!</p>
-
-    <form [formGroup]="registerForm" (ngSubmit)="register()">
-      <input
-        type="text"
-        class="form-control mb-3"
-        placeholder="Full Name"
-        formControlName="fullName"
-      />
-      @if(registerForm && f['fullName'].touched &&
-      f['fullName'].errors?.['required']){
-      <div class="text-danger mb-2">Full name is required.</div>
-      }
-      <input
-        type="email"
-        class="form-control mb-3"
-        placeholder="Email"
-        formControlName="email"
-      />
-      @if(registerForm && f['email'].touched &&
-      f['email'].errors?.['required']){
-      <div class="text-danger mb-2">Email is required</div>
-      } @if(registerForm && f['email'].touched && f['email'].errors?.['email']){
-      <div class="text-danger mb-2">Enter a valid email address.</div>
-      } @if(registerForm && f['email'].touched &&
-      f['email'].errors?.['emailTaken']){
-      <div class="text-danger mb-2">This email is already registered.</div>
-      }
-
-      <input
-        type="text"
-        class="form-control mb-3"
-        placeholder="Username"
-        formControlName="username"
-      />
-      @if(registerForm && f['username'].touched &&
-      f['username'].errors?.['required']){
-      <div class="text-danger mb-2">username is required.</div>
-      } @if(registerForm && f['username'].touched &&
-      f['username'].errors?.['usernameTaken']){
-      <div class="text-danger mb-2">this username already taken.</div>
-      }
-      <div class="input-group mb-3">
-      <input
-        [type]="passwordVisible ? 'text' : 'password'"
-        class="form-control"
-        placeholder="Password"
-        formControlName="password"
-      />
-      <button
-        type="button"
-        class="btn btn-outline-secondary"
-        (click)="passwordVisible = !passwordVisible"
-      >
-        <i
-          class="bi"
-          [ngClass]="passwordVisible ? 'bi-eye-slash' : 'bi-eye'"
-        ></i>
-      </button>
+  <div class="auth-stack">
+    <!-- HEADER -->
+    <div class="welcome-header text-center mb-2">
+      <div class="welcome-title">Welcome to <span>Job Portal</span></div>
     </div>
-      @if(registerForm && f['password'].touched &&
-      f['password'].errors?.['required']){
-      <div class="text-danger mb-2">Password is required.</div>
-      } @if(registerForm && f['password'].touched &&
-      f['password'].errors?.['minlength']){
-      <div class="text-danger mb-2">
-        Password must be at least 8 characters long.
-      </div>
-      } @if(registerForm && f['password'].touched &&
-      f['password'].errors?.['pattern']){
-      <div class="text-danger mb-2">
-        Password must contain at least one uppercase letter, one lowercase
-        letter, one number, and one special character.
-      </div>
-      }
-      <div class="input-group">
-      <input
-        [type]="showpassword ? 'text' : 'password'"
-        class="form-control"
-        placeholder="Confirm Password"
-        formControlName="confirmPassword"
-      />
-      <button
-        type="button"
-        class="btn btn-outline-secondary"
-        (click)="showpassword = !showpassword"
+
+    <!-- BADGE -->
+    <div class="text-center mb-3">
+      <span
+        class="badge rounded-pill px-3 py-2 fw-medium small"
+        style="background: #ede7f6; color: var(--primary-color)"
       >
-        <i class="bi" [ngClass]="showpassword ? 'bi-eye-slash' : 'bi-eye'"></i>
-      </button>
+        🚀 Join thousands of developers
+      </span>
     </div>
-      @if(registerForm && f['confirmPassword'].touched &&
-      f['confirmPassword'].errors?.['required']){
-      <div class="text-danger mb-2">Confirm Password is required.</div>
-      } @if(registerForm && f['confirmPassword'].touched &&
-      registerForm.errors?.['passwordMismatch']){
-      <div class="text-danger mb-2">Passwords do not match.</div>
-      }
-      <div class="mb-3 text-center">
-        <ngx-recaptcha2
-          [siteKey]="sitekey"
-          (success)="handleCaptcha($event)"
-          (error)="captchaValid = false"
+    <div class="auth-form-wrapper p-4 p-md-5">
+      <h2 class="title text-center">Create an Account</h2>
+      <p class="subtitle text-center">Join us and get started!</p>
+
+      <form [formGroup]="registerForm" (ngSubmit)="register()">
+        <div class="input-icon mb-3">
+          <i class="bi bi-person-fill icon-left"></i>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Full Name"
+            formControlName="fullName"
+          />
+        </div>
+        @if(registerForm && f['fullName'].touched &&
+        f['fullName'].errors?.['required']){
+        <div class="form-error">
+          <i class="bi bi-exclamation-triangle-fill"></i>Full name is required.
+        </div>
+        } @if (f['fullName'].touched && f['fullName'].errors?.['fullName'] ===
+        'tooShort') {
+        <div class="form-error">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          Please enter your first and last name.
+        </div>
+        } @if (f['fullName'].touched && f['fullName'].errors?.['fullName'] ===
+        'invalidChars') {
+        <div class="form-error">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          Name can contain letters only.
+        </div>
+        }
+
+        <div class="input-icon mb-3">
+          <i class="bi bi-envelope-fill icon-left"></i>
+          <input
+            type="email"
+            class="form-control"
+            placeholder="Email"
+            formControlName="email"
+          />
+        </div>
+        @if(registerForm && f['email'].touched &&
+        f['email'].errors?.['required']){
+        <div class="form-error">
+          <i class="bi bi-exclamation-triangle-fill"></i>Email is required
+        </div>
+        } @if(registerForm && f['email'].touched &&
+        f['email'].errors?.['strictEmail']){
+        <div class="form-error">
+          <i class="bi bi-exclamation-triangle-fill"></i>Enter a valid email
+          address.
+        </div>
+        } @if(registerForm && f['email'].touched &&
+        f['email'].errors?.['emailTaken']){
+        <div class="form-error">
+          <i class="bi bi-exclamation-triangle-fill"></i>This email is already
+          registered.
+        </div>
+        }
+        <div class="input-icon mb-3">
+          <i class="bi bi-person-badge-fill icon-left"></i>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Username"
+            formControlName="username"
+          />
+        </div>
+        @if(registerForm && f['username'].touched &&
+        f['username'].errors?.['required']){
+        <div class="form-error">
+          <i class="bi bi-exclamation-triangle-fill"></i>username is required.
+        </div>
+        } @if(registerForm && f['username'].touched &&
+        f['username'].errors?.['usernameTaken']){
+        <div class="form-error">
+          <i class="bi bi-exclamation-triangle-fill"></i>this username already
+          taken.
+        </div>
+        }
+        <div class="input-icon mb-3">
+          <i class="bi bi-lock-fill icon-left"></i>
+          <input
+            [type]="passwordVisible ? 'text' : 'password'"
+            class="form-control"
+            placeholder="Password"
+            formControlName="password"
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="passwordVisible = !passwordVisible"
+          >
+            <i
+              class="bi"
+              [ngClass]="passwordVisible ? 'bi-eye-slash' : 'bi-eye'"
+            ></i>
+          </button>
+        </div>
+
+        @if(registerForm && f['password'].touched &&
+        f['password'].errors?.['required']){
+        <div class="form-error">
+          <i class="bi bi-exclamation-triangle-fill"></i>Password is required.
+        </div>
+        } @if(registerForm && f['password'].touched &&
+        f['password'].errors?.['minlength']){
+        <div class="form-error">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          Password must be at least 8 characters long.
+        </div>
+        } @if(registerForm && f['password'].touched &&
+        f['password'].errors?.['pattern']){
+        <div class="form-error">
+          <i class="bi bi-exclamation-triangle-fill"></i>
+          Password must contain at least one uppercase letter, one lowercase
+          letter, one number, and one special character.
+        </div>
+        }
+        <div class="input-icon mb-3">
+          <i class="bi bi-lock-fill icon-left"></i>
+          <input
+            [type]="showpassword ? 'text' : 'password'"
+            class="form-control"
+            placeholder="Confirm Password"
+            formControlName="confirmPassword"
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="showpassword = !showpassword"
+          >
+            <i
+              class="bi"
+              [ngClass]="showpassword ? 'bi-eye-slash' : 'bi-eye'"
+            ></i>
+          </button>
+        </div>
+
+        @if(registerForm && f['confirmPassword'].touched &&
+        f['confirmPassword'].errors?.['required']){
+        <div class="form-error">
+          <i class="bi bi-exclamation-triangle-fill"></i>Confirm Password is
+          required.
+        </div>
+        } @if(registerForm && f['confirmPassword'].touched &&
+        registerForm.errors?.['passwordMismatch']){
+        <div class="form-error">
+          <i class="bi bi-exclamation-triangle-fill"></i>Passwords do not match.
+        </div>
+        } @if(registerForm.valid){
+        <div class="captcha-wrapper">
+          <ngx-recaptcha2
+            [siteKey]="sitekey"
+            (success)="handleCaptcha($event)"
+            (error)="captchaValid = false"
+          >
+          </ngx-recaptcha2>
+        </div>
+        } @if(errorMessage){
+        <div class="alert alert-danger">{{ errorMessage }}</div>
+        } @if(successMessage){
+        <div class="alert alert-success">{{ successMessage }}</div>
+        }
+
+        <button
+          type="submit"
+          class="btn login-btn w-100"
+          [disabled]="registerForm.invalid || !captchaValid"
         >
-        </ngx-recaptcha2>
-      </div>
+          Register
+        </button>
+      </form>
 
-      @if(errorMessage){
-      <div class="alert alert-danger">{{ errorMessage }}</div>
-      } @if(successMessage){
-      <div class="alert alert-success">{{ successMessage }}</div>
-      }
-
-      <button type="submit" class="btn w-100" [disabled]="registerForm.invalid">
-        Register
-      </button>
-    </form>
-
-    <p class="text-center mt-3">
-      Already have an account?
-      <a routerLink="/login" class="signup-link">Login here</a>
-    </p>
+      <p class="text-center mt-3">
+        Already have an account?
+        <a routerLink="/login" class="signup-link">Login here</a>
+      </p>
+    </div>
   </div>
 </app-auth-layout>

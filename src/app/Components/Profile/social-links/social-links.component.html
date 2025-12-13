@@ -1,74 +1,101 @@
 <!-- VIEW MODE -->
-<div *ngIf="!editMode" class="view">
+<div *ngIf="!editMode" class="info-view">
   <p *ngIf="user?.social?.linkedin">
-    <a [href]="user?.social?.linkedin" target="_blank">LinkedIn</a>
+    <a
+      [href]="user?.social?.linkedin"
+      target="_blank"
+      class="social-link"
+    >
+      LinkedIn
+    </a>
   </p>
 
   <p *ngIf="user?.social?.github">
-    <a [href]="user?.social?.github" target="_blank">GitHub</a>
+    <a
+      [href]="user?.social?.github"
+      target="_blank"
+      class="social-link"
+    >
+      GitHub
+    </a>
   </p>
 
   <p *ngIf="user?.social?.website">
-    <a [href]="user?.social?.website" target="_blank">Portfolio</a>
+    <a
+      [href]="user?.social?.website"
+      target="_blank"
+      class="social-link"
+    >
+      Portfolio
+    </a>
+  </p>
+
+  <p *ngIf="!user?.social" class="info-text">
+    No social links added
   </p>
 </div>
 
 <!-- EDIT MODE -->
-<form *ngIf="editMode" [formGroup]="form" (ngSubmit)="save()" class="edit">
+<form
+  *ngIf="editMode"
+  [formGroup]="form"
+  (ngSubmit)="save()"
+  class="edit-form"
+>
   <!-- LINKEDIN -->
   <div class="mb-2">
     <input
-      class="form-control"
+      class="form-control custom-input"
       formControlName="linkedin"
       placeholder="LinkedIn URL"
     />
     <div
-      class="text-danger small"
+      class="error-text"
       *ngIf="form.get('linkedin')?.touched && form.get('linkedin')?.errors"
     >
-      Enter a valid LinkedIn profile URL (example:
-      https://www.linkedin.com/in/username)
+      Enter a valid LinkedIn profile URL
     </div>
   </div>
 
   <!-- GITHUB -->
   <div class="mb-2">
     <input
-      class="form-control"
+      class="form-control custom-input"
       formControlName="github"
       placeholder="GitHub URL"
     />
     <div
-      class="text-danger small"
+      class="error-text"
       *ngIf="form.get('github')?.touched && form.get('github')?.errors"
     >
-      Enter a valid GitHub profile URL (example: https://github.com/username)
+      Enter a valid GitHub profile URL
     </div>
   </div>
 
   <!-- PORTFOLIO -->
   <div class="mb-2">
     <input
-      class="form-control"
+      class="form-control custom-input"
       formControlName="website"
       placeholder="Portfolio URL"
     />
     <div
-      class="text-danger small"
+      class="error-text"
       *ngIf="form.get('website')?.touched && form.get('website')?.errors"
     >
-      Enter a valid website URL (example: https://www.myportfolio.com)
+      Enter a valid website URL
     </div>
   </div>
 
-  <div class="text-end">
+  <!-- ACTION -->
+  <div class="text-end mt-3">
     <button
       type="submit"
-      class="btn btn-success btn-sm"
+      class="btn custom-save-btn"
       (click)="$event.stopPropagation()"
       [disabled]="form.invalid"
     >
-      Save
+      Save Changes
     </button>
   </div>
 </form>

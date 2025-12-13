@@ -1,4 +1,9 @@
-<div class="section card p-3 mb-4 shadow-sm">
+<div
+  class="section card card-border p-3 mb-4 shadow-sm"
+  [class.section-active]="editMode"
+    [class.section-view]="!editMode"
+  [class.section-edit]="editMode"
+>
   <div class="d-flex justify-content-between align-items-center">
     <h5 class="fw-bold">{{ title }}</h5>
 

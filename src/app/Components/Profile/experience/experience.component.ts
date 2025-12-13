@@ -21,6 +21,7 @@ import { removeEmptyRows } from '../../../utils/remove-empty';
   selector: 'app-experience',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './experience.component.html',
+  styleUrls: ['./experience.component.scss'],
 })
 export class ExperienceComponent implements OnInit {
   @Input() editMode = false;

@@ -1,48 +1,179 @@
+/* ===========================
+   LAYOUT
+=========================== */
 
-.login-row {
-  height: 100vh;
-}
-
-/* Left gradient panel */
+/* LEFT PANEL */
 .gradient-bg {
   background: linear-gradient(
     135deg,
     var(--primary-color),
     rgba(94, 53, 177, 0.8) 70%
   );
+
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px;
+
+  padding: clamp(32px, 6vw, 80px) clamp(24px, 5vw, 64px);
 }
+// ✅ no override conflict
 
 /* Illustration */
-.auth-illustration,
-.login-illustration {
+.auth-illustration {
   width: 100%;
-  height: 100%;
+  max-width: 480px;
+  margin-top: 20px;
+
+  /* 🔒 reserve space before image loads */
+  //aspect-ratio: 16 / 10;
+
   object-fit: contain;
-  padding: 40px;
+  padding: 20px;
+
+  /* ✅ GPU-safe animation */
+  animation: float 6s ease-in-out infinite;
+  will-change: transform;
 }
 
-/* Right white form area */
-.form-side {
-  background: white;
-}
-
-/* SHARED FORM INPUT STYLES */
-.form-control {
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #cbd5e1;
-
-  &:focus {
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 2px rgba(94, 53, 177, 0.2);
+@media (min-width: 1200px) {
+  .auth-illustration {
+    max-width: 620px;
   }
 }
 
-/* SHARED LINK COLORS */
+/* Floating animation (NO scale = no reflow) */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ===========================
+   RIGHT PANEL
+=========================== */
+
+.form-side {
+  flex-direction: column;
+  background: linear-gradient(180deg, #ffffff, #faf7ff);
+  animation: fadeIn 0.6s ease-out;
+  will-change: opacity, transform;
+}
+.form-side > * {
+  max-width: 520px;
+  width: 100%;
+}
+
+/* ===========================
+   HEADER
+=========================== */
+
+.welcome-header {
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+
+.welcome-title {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #111827;
+}
+
+.welcome-title span {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+/* ===========================
+   FORM CARD
+=========================== */
+
+.auth-form-wrapper {
+  background: #ffffff;
+  width: 420px;
+  border-radius: 20px;
+
+  box-shadow: 0 20px 50px rgba(94, 53, 177, 0.12);
+  border: 1px solid rgba(94, 53, 177, 0.08);
+}
+
+/* ===========================
+   FORM ELEMENTS
+=========================== */
+
+.form-control {
+  height: 48px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  font-size: 14px;
+  padding-left: 44px;
+  margin-bottom: 14px;
+
+  &:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(94, 53, 177, 0.12);
+  }
+}
+
+/* Icons */
+.input-icon {
+  position: relative;
+}
+
+.input-icon .form-control {
+  padding-left: 42px !important;
+  padding-right: 42px !important;
+}
+
+.icon-left {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: var(--secondary-color);
+}
+
+.password-toggle {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  color: var(--secondary-color);
+}
+
+/* ===========================
+   BUTTONS & LINKS
+=========================== */
+
+.btn {
+  height: 48px;
+  border-radius: 12px;
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--primary-color), #7e57c2);
+  color: #fff;
+  border: none;
+  transition: transform 0.15s ease-in-out, background 0.15s ease-in-out;
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  background: #4a2892;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .forgot-link,
 .signup-link,
 a {
@@ -50,28 +181,113 @@ a {
   font-weight: 500;
 }
 
-.btn {
-  padding: 12px;
-  background: var(--primary-color);
-  color: white;
-  border-radius: 8px;
-  border: none;
-}
-.btn:disabled,
-.login-btn:disabled {
-  background: var(--primary-color) !important;
-  opacity: 0.45 !important;
-  color: white !important;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none !important;
+/* ===========================
+   CAPTCHA
+=========================== */
+
+.captcha-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 18px 0 22px;
+  width: 100%;
 }
 
-/* Hover (WORKING VERSION) */
-.btn:hover:not(:disabled),
-.login-btn:hover:not(:disabled) {
-  background: #4a2892 !important; /* Adjusted darker shade */
-  transform: translateY(-1px) !important;
-  color: white !important;
+.captcha-wrapper > div {
+  transform: scale(0.92);
+  transform-origin: center;
 }
 
+.captcha-wrapper iframe {
+  max-width: 100%;
+}
+
+@media (max-width: 480px) {
+  .captcha-wrapper > div {
+    transform: scale(0.85);
+  }
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media (max-width: 768px) {
+  .form-side {
+    padding: 2rem;
+  }
+}
+
+/* ===========================
+   ANIMATION
+=========================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===========================
+   TEXT
+=========================== */
+
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 28px;
+}
+
+/* ===========================
+   FORM ERRORS
+=========================== */
+
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: #ef4444;
+  margin-top: 6px;
+  margin-bottom: 14px;
+  padding-left: 20px;
+}
+
+.form-error i {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.form-control.is-invalid {
+  border-color: #dc2626;
+}
+
+.form-control.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+@media (max-width: 576px) {
+  .auth-form-wrapper {
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .welcome-title {
+    font-size: 22px;
+  }
+  .form-side {
+    padding: 1.5rem;
+  }
+}

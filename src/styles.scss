@@ -1,13 +1,13 @@
 /* Sass color utilities */
 @use "sass:color";
-
+ 
 /* Toastr styles (modern build) */
 @use "ngx-toastr/toastr";
-
+ 
 /* Fallback for older ngx-toastr versions:
    @import "ngx-toastr/toastr";
 */
-
+ 
 /* --------------------------------------------------
    CSS VARIABLES (THEME COLORS & GLOBAL TOKENS)
 -----------------------------------------------------*/
@@ -16,41 +16,41 @@
   --secondary-color: #7e57c2;     /* Medium Purple */
   --purple-light: #b8a5e4;
   --primary-light: #ede7f6;       /* Very Light Purple */
-
+ 
   --text-dark: #1e293b;
   --text-muted: #64748b;
-
+ 
   --success-bg: #d1fae5;
   --success-text: #065f46;
-
+ 
   --warning-bg: #fef3c7;
   --warning-text: #92400e;
-
+ 
   --danger-bg: #fee2e2;
   --danger-text: #991b1b;
-
+ 
   --card-bg: #ffffff;
   --body-bg: #f8f9fa;
 }
-
+ 
 /* --------------------------------------------------
    SASS HELPER VARIABLES
 -----------------------------------------------------*/
 $primary-purple: #5e35b1 !default;
 $primary-purple-dark: color.adjust($primary-purple, $lightness: -12%);
 $primary-purple-mix-10: color.mix($primary-purple, #ffffff, $weight: 10%);
-
+ 
 /* --------------------------------------------------
    GLOBAL BASE STYLES
 -----------------------------------------------------*/
-
+ 
 body {
   background-color: var(--body-bg);
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
   color: var(--text-dark);
 }
-
+ 
 /* --------------------------------------------------
    GLOBAL CARD STYLE
 -----------------------------------------------------*/
@@ -60,13 +60,13 @@ body {
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
   transition: transform 0.2s ease-in-out;
-
+ 
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   }
 }
-
+ 
 /* --------------------------------------------------
    BRAND LOGO (SMALL SQUARE)
 -----------------------------------------------------*/
@@ -81,7 +81,7 @@ body {
   justify-content: center;
   font-weight: 700;
 }
-
+ 
 /* Global secondary purple button */
 .btn-primary-purple {
   background-color: var(--primary-color) !important;
@@ -89,7 +89,7 @@ body {
   border: none;
   font-weight: 600;
   transition: background-color 0.2s ease, transform 0.15s ease;
-
+ 
   &:hover {
     background-color: #6d49b9; /* slightly darker secondary */
     transform: translateY(-1px);
@@ -101,7 +101,7 @@ body {
   border: none;
   font-weight: 600;
   transition: background-color 0.2s ease, transform 0.15s ease;
-
+ 
   &:hover {
     background-color: #6d49b9; /* slightly darker secondary */
     transform: translateY(-1px);
@@ -118,11 +118,9 @@ body {
   gap: 0.25rem;
   transition: color 0.2s ease, transform 0.15s ease;
 }
-
+ 
 .link-view-all:hover {
   color: #4b2aa6; /* slightly darker primary */
   transform: translateX(2px);
   text-decoration: none;
 }
-
-

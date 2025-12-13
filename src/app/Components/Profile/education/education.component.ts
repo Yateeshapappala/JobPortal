@@ -22,6 +22,7 @@ import { removeEmptyRows } from '../../../utils/remove-empty';
   selector: 'app-education',
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './education.component.html',
+  styleUrls: ['./education.component.scss'],
 })
 export class EducationComponent implements OnInit {
   @Input() editMode = false;

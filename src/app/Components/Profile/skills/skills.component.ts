@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-skills',
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './skills.component.html',
+  styleUrls: ['./skills.component.scss'],
 })
 export class SkillsComponent implements OnInit {
   @Input() editMode = false; // <-- controlled by parent

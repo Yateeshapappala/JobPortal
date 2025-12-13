@@ -1,15 +1,28 @@
-<div class="container-fluid">
-  <div class="row login-row">
-    <!-- LEFT SIDE (Image Panel) -->
+<div class="container-fluid min-vh-100">
+  <div class="row min-vh-100">
+    <!-- LEFT PANEL (Bootstrap controls visibility) -->
     <div
-      class="col-lg-6 col-12 d-flex justify-content-center align-items-center gradient-bg"
+      class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center gradient-bg"
     >
-      <img src="/assets/Auth-img.png" class="img-fluid auth-illustration" />
+      <div class="px-4 px-xl-5 text-white">
+        <h1 class="fw-bold display-5 lh-sm mb-3">Build Your Career</h1>
+
+        <p class="fs-6 opacity-75 mb-4 col-xl-8">
+          Discover opportunities, connect with top companies, and grow your
+          professional journey.
+        </p>
+
+        <img
+          src="/assets/auth.png"
+          class="img-fluid auth-illustration"
+          alt="Career illustration"
+        />
+      </div>
     </div>
 
-    <!-- RIGHT SIDE (Form Panel - Content Slot) -->
+    <!-- RIGHT PANEL -->
     <div
-      class="col-lg-6 col-12 d-flex justify-content-center align-items-center p-5 form-side"
+      class="col-12 col-lg-6 d-flex align-items-center justify-content-center p-4 p-md-5 form-side"
     >
       <ng-content></ng-content>
     </div>

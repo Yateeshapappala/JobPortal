@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-additional-info',
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './additional-info.component.html',
+  styleUrls: ['./additional-info.component.scss'],
 })
 export class AdditionalInfoComponent implements OnInit {
   @Input() editMode = false;

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import * as CryptoJS from 'crypto-js';
 
 interface User {
   username: string;
@@ -23,11 +24,12 @@ export class AuthService {
 
   login(username: string, password: string, rememberMe: boolean): boolean {
     username = username.trim().toLowerCase();
+    const hashedPassword = CryptoJS.SHA256(password).toString();
 
     const user = this.users.find(
       (u) =>
         (u.username === username || u.email === username) &&
-        u.password === password
+        u.password === hashedPassword
     );
 
     if (user) {
@@ -39,7 +41,15 @@ export class AuthService {
       const token = this.generateToken(user, expires);
 
       localStorage.setItem('token', token);
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem(
+        'user',
+        JSON.stringify({
+          username: user.username,
+          fullName: user.fullName,
+          email: user.email,
+        })
+      );
+
       localStorage.setItem('rememberMe', rememberMe.toString());
       // Notify subscribers about login status change
       this.loggedInSubject.next(true);
@@ -66,8 +76,11 @@ export class AuthService {
   // -------------------------- REGISTER --------------------------
 
   register(user: User) {
-    const exists = this.users.find((u) => u.username === user.username);
+    // Normalize username and email
+    user.username = user.username.trim().toLowerCase();
+    user.email = user.email.trim().toLowerCase();
 
+    const exists = this.users.find((u) => u.username === user.username);
     if (exists) {
       return { success: false, message: 'Username already exists.' };
     }
@@ -77,8 +90,13 @@ export class AuthService {
       return { success: false, message: 'Email already exists.' };
     }
 
+    // Hash password before storing
+    user.password = CryptoJS.SHA256(user.password).toString();
+
+    // Save user into local array + localStorage
     this.users.push(user);
     localStorage.setItem('users', JSON.stringify(this.users));
+
     return { success: true, message: 'User registered.' };
   }
 

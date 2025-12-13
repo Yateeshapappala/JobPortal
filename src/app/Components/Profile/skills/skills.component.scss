@@ -1,0 +1,111 @@
+/* ===========================
+   VIEW MODE
+=========================== */
+
+.info-view {
+  padding: 4px 0;
+}
+
+.info-text {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ===========================
+   SKILL BADGES
+=========================== */
+
+.skill-badge {
+  display: inline-flex;
+  align-items: center;
+  background: var(--primary-light);
+  color: var(--primary-color);
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  margin: 0 6px 6px 0;
+}
+
+/* Editable badge */
+.skill-badge.editable {
+  padding-right: 6px;
+}
+
+/* Remove icon */
+.skill-remove {
+  margin-left: 6px;
+  opacity: 0.6;
+  transform: scale(0.8);
+  filter: invert(1);
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+/* ===========================
+   EDIT MODE
+=========================== */
+
+.edit-form {
+  margin-top: 8px;
+}
+
+/* ===========================
+   INPUTS
+=========================== */
+
+.custom-input {
+  background: var(--card-bg);
+  border: 1px solid var(--primary-light);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--text-dark);
+
+  &:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-light);
+  }
+}
+
+.form-control.ng-dirty {
+  border-color: var(--secondary-color);
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+
+.custom-save-btn {
+  background: var(--primary-color);
+  border: none;
+  color: var(--card-bg);
+  font-size: 14px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: var(--secondary-color);
+  }
+
+  &:disabled {
+    background: var(--primary-light);
+    color: var(--text-muted);
+    cursor: not-allowed;
+  }
+}
+
+.custom-add-btn {
+  background: var(--primary-light);
+  color: var(--primary-color);
+  border: none;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 8px;
+
+  &:hover {
+    background: var(--primary-color);
+    color: var(--card-bg);
+  }
+}

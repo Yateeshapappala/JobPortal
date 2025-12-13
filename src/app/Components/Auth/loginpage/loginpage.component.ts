@@ -10,9 +10,15 @@ import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-loginpage',
-  imports: [FormsModule, NgxCaptchaModule, RouterLink, AuthLayoutComponent, NgClass],
+  imports: [
+    FormsModule,
+    NgxCaptchaModule,
+    RouterLink,
+    AuthLayoutComponent,
+    NgClass,
+  ],
   templateUrl: './loginpage.component.html',
-  styleUrl: './loginpage.component.scss',
+  styleUrl: './../auth-layout/auth-layout.component.scss',
 })
 export class LoginpageComponent {
   @ViewChild('captchaElem', { static: false }) captchaElem!: any;
@@ -55,17 +61,9 @@ export class LoginpageComponent {
 
   login() {
     this.errorMessage = '';
-    console.log("1. Login function started");
-  console.log("2. Captcha status:", this.captchaValid);
-
-    if (!this.username || !this.password) {
-    console.log("3. Missing fields");
-  }
-
-  const result = this.auth.login(this.username, this.password, this.rememberMe);
-  console.log("4. AuthService result:", result);
-
     this.loading = true;
+
+    // 1. Validate fields
     if (!this.username || !this.password) {
       this.toastr.error(this.MSG_FILL_FIELDS);
       this.loading = false;
@@ -78,26 +76,34 @@ export class LoginpageComponent {
       return;
     }
 
-    if (this.auth.login(this.username, this.password, this.rememberMe)) {
+    // 2. Run login ONCE and store result
+    const result = this.auth.login(
+      this.username,
+      this.password,
+      this.rememberMe
+    );
+
+    // 3. Handle success or failure
+    if (result) {
       this.toastr.success('Login successful!');
-      // Redirect to dashboard after successful login
       const returnUrl =
         this.route.snapshot.queryParamMap.get('returnUrl') || '/dashboard';
-
       this.router.navigate([returnUrl]);
     } else {
-       setTimeout(() => {
-    this.toastr.error(this.MSG_INVALID_CREDENTIALS);
-  }, 0);
+      setTimeout(() => {
+        this.toastr.error(this.MSG_INVALID_CREDENTIALS);
+      }, 0);
 
-  this.captchaValid = false;
+      this.captchaValid = false;
 
-  try {
-    this.captchaElem?.resetCaptcha();
-  } catch (err) {
-    console.warn("Captcha reset error:", err);
-  }
+      try {
+        this.captchaElem?.resetCaptcha();
+      } catch (err) {
+        console.warn('Captcha reset error:', err);
+      }
     }
+
+    // 4. Stop loading
     this.loading = false;
   }
 }

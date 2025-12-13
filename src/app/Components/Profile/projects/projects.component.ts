@@ -16,6 +16,7 @@ import { removeEmptyRows } from '../../../utils/remove-empty';
   selector: 'app-projects',
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './projects.component.html',
+  styleUrls: ['./projects.component.scss'],
 })
 export class ProjectsComponent implements OnInit {
   @Input() editMode = false;

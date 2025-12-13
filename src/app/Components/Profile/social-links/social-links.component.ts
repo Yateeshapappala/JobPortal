@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-social-links',
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './social-links.component.html',
+  styleUrls: ['./social-links.component.scss'],
 })
 export class SocialLinksComponent implements OnInit {
   @Input() editMode = false; // ← Controlled by parent

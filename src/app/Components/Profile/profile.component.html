@@ -1,13 +1,13 @@
 <div class="profile-wrapper container py-4">
   <div class="row g-4">
     <!-- LEFT SIDEBAR -->
-    <div class="col-lg-3 col-md-4">
+    <div class="col-lg-3 col-md-4 border-3 primary-color">
       <div class="profile-summary-card">
         <!-- Pencil icon on avatar -->
         <div class="avatar-wrapper">
           <img
             class="profile-avatar"
-            [src]="user?.profilePic || 'assets/default-user.png'"
+            [src]="user?.profilePic || '/assets/default-profile.jpg'"
           />
 
           <button class="avatar-edit-btn" (click)="togglePhotoMenu()">

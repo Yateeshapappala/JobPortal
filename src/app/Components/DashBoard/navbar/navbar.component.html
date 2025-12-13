@@ -1,89 +1,98 @@
+<!-- ================= NAVBAR ================= -->
 <nav class="navbar navbar-expand-lg sticky-top">
   <div class="container">
-    <!-- Brand (now routes to dashboard when authenticated) -->
+    <!-- ===== Brand ===== -->
     <a
       class="navbar-brand d-flex align-items-center"
       (click)="onBrandClick()"
       style="cursor: pointer"
     >
-      <div class="brand-logo me-2">J</div>
+      <div class="brand-logo-box me-2">J</div>
       <span class="brand-text">JobPortal</span>
     </a>
 
+    <!-- ===== Primary navigation (always visible) ===== -->
+    @if (!isJobsPage) {
+    <ul class="navbar-nav ms-3">
+      <li class="nav-item">
+        <a routerLink="/jobs" routerLinkActive="active" class="link-view-all">
+          Find Jobs
+        </a>
+      </li>
+    </ul>
+    }
+
+    <!-- ===== Hamburger (mobile) ===== -->
     <button
-      class="navbar-toggler"
+      class="navbar-toggler ms-auto"
       type="button"
       data-bs-toggle="collapse"
       data-bs-target="#navbarNav"
+      aria-label="Toggle navigation"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!-- ===== Collapsible area: AUTH ACTIONS ONLY ===== -->
     <div class="collapse navbar-collapse" id="navbarNav">
-      <!-- left side: only show Find Jobs when NOT on dashboard -->
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-4">
-        <li class="nav-item" *ngIf="!isJobsPage">
-          <a class="nav-link" routerLink="/jobs" routerLinkActive="active"
-            >Find Jobs</a
-          >
-        </li>
-      </ul>
-
-      <div class="d-flex align-items-center position-relative">
-        <!-- Guest actions -->
-        <ng-container
-          *ngIf="!isLoggedIn && (isHomePage || showGuestAuthOnJobs)"
+      <div class="navbar-actions d-flex align-items-center ms-auto">
+        <!-- ===== Guest actions ===== -->
+        @if (!isLoggedIn && (isHomePage || showGuestAuthOnJobs)) {
+        <a
+          routerLink="/login"
+          class="btn btn-primary-purple rounded-pill px-4 py-2 me-lg-3 mb-2 mb-lg-0"
         >
-          <a
-            routerLink="/login"
-            class="btn btn-register rounded-pill px-4 py-2 me-3"
-            >Login</a
-          >
-          <a
-            routerLink="/register"
-            class="btn btn-register rounded-pill px-4 py-2"
-            >Register</a
-          >
-        </ng-container>
+          Login
+        </a>
 
-        <!-- Authenticated: username + dropdown -->
-        <ng-container *ngIf="isLoggedIn">
-          <div class="dropdown">
-            <!-- use attribute binding for aria-expanded -->
-            <button
-              class="btn btn-profile d-flex align-items-center gap-2"
-              (click)="toggleMenu()"
-              type="button"
-              aria-haspopup="true"
-              [attr.aria-expanded]="showMenu"
-            >
-              <!-- safe char extraction without optional chaining -->
-              <div class="avatar-circle">
-                {{ username ? username.charAt(0) : "" }}
-              </div>
-              <span class="small fw-bold">{{ username }}</span>
-              <i class="small text-muted">▾</i>
-            </button>
+        <a
+          routerLink="/register"
+          class="btn btn-primary-purple rounded-pill px-4 py-2"
+        >
+          Register
+        </a>
+        }
 
-            <ul
-              class="dropdown-menu dropdown-menu-end mt-2"
-              [class.show]="showMenu"
-              style="min-width: 160px"
-            >
-              <li>
-                <button class="dropdown-item" (click)="goToProfile()">
-                  Profile
-                </button>
-              </li>
-              <li><hr class="dropdown-divider" /></li>
-              <li>
-                <button class="dropdown-item text-danger" (click)="logout()">
-                  Logout
-                </button>
-              </li>
-            </ul>
-          </div>
-        </ng-container>
+        <!-- ===== Logged-in user dropdown ===== -->
+        @if (isLoggedIn) {
+        <div class="dropdown">
+          <button
+            class="btn btn-profile d-flex align-items-center gap-2"
+            (click)="toggleMenu()"
+            type="button"
+            [attr.aria-expanded]="showMenu"
+          >
+            <div class="avatar-circle">
+              {{ username ? username.charAt(0) : "" }}
+            </div>
+
+            <span class="fw-semibold username-text">
+              {{ username }}
+            </span>
+
+            <i class="small text-muted">▾</i>
+          </button>
+
+          <ul
+            class="dropdown-menu dropdown-menu-end mt-2"
+            [class.show]="showMenu"
+          >
+            <li>
+              <button class="dropdown-item btn-profile" (click)="goToProfile()">
+                Profile
+              </button>
+            </li>
+
+            <li><hr class="dropdown-divider" /></li>
+
+            <li>
+              <button class="dropdown-item text-danger" (click)="logout()">
+                Logout
+              </button>
+            </li>
+          </ul>
+        </div>
+        }
       </div>
     </div>
   </div>

@@ -1,8 +1,11 @@
 <div class="card-custom p-4">
-  <h5 class="fw-bold mb-4">Recent Applications</h5>
+  <!-- Section title -->
+  <h5 class="fw-bold mb-4">Application History</h5>
 
+  <!-- Responsive table wrapper -->
   <div class="table-responsive">
-    <table class="table align-middle">
+    <table class="table align-middle mb-0">
+      <!-- Table header -->
       <thead>
         <tr>
           <th>COMPANY</th>
@@ -12,13 +15,15 @@
           <th></th>
         </tr>
       </thead>
+
       <tbody>
-        <tr *ngFor="let app of applications">
+        <!-- Application rows -->
+        @for (app of paginatedApplications; track app.id ?? $index) {
+        <tr>
           <td>
             <div class="d-flex align-items-center">
-              <!-- safe company initials -->
               <div class="company-logo me-3">
-                {{ app.company ? app.company.charAt(0) : "" }}
+                {{ app.company.charAt(0) }}
               </div>
               <span class="company-name">{{ app.company }}</span>
             </div>
@@ -46,13 +51,6 @@
 
           <td class="text-end">
             <button
-              class="btn btn-sm btn-view me-2"
-              (click)="viewApplication(app)"
-            >
-              View
-            </button>
-
-            <button
               class="btn btn-sm btn-withdraw"
               (click)="confirmWithdraw(app)"
             >
@@ -60,70 +58,32 @@
             </button>
           </td>
         </tr>
-        <tr *ngIf="applications.length === 0">
+        }
+
+        <!-- Empty state -->
+        @if (applications.length === 0) {
+        <tr>
           <td colspan="5" class="text-center text-muted py-4">
             You have not applied to any jobs yet.
           </td>
         </tr>
+        }
       </tbody>
     </table>
-  </div>
 
-  <!-- Simple in-page modal for viewing an application -->
-  <div
-    class="modal-backdrop"
-    *ngIf="showViewModal"
-    style="
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 1050;
-    "
-  ></div>
-  <div
-    class="modal d-block"
-    tabindex="-1"
-    role="dialog"
-    *ngIf="showViewModal"
-    style="z-index: 1060"
-  >
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">
-            {{ selectedApp?.jobTitle }} — {{ selectedApp?.company }}
-          </h5>
-          <button
-            type="button"
-            class="btn-close"
-            (click)="closeView()"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <p><strong>Status:</strong> {{ selectedApp?.status }}</p>
-          <p>
-            <strong>Applied:</strong>
-            {{ selectedApp?.dateApplied | date : "medium" }}
-          </p>
-          <p *ngIf="selectedApp?.logoUrl">
-            <img
-              [src]="selectedApp?.logoUrl"
-              alt="logo"
-              style="max-height: 50px"
-            />
-          </p>
-          <!-- Add more fields here (cover letter, resume link) if present -->
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" (click)="closeView()">Close</button>
-          <button
-            class="btn btn-danger"
-            (click)="confirmWithdraw(selectedApp!)"
-          >
-            Withdraw
+    <!-- Pagination -->
+    @if (totalPages > 1) {
+    <nav class="d-flex justify-content-end mt-3">
+      <ul class="pagination pagination-sm mb-0">
+        @for (p of totalPagesArray; track p) {
+        <li class="page-item" [class.active]="currentPage === p">
+          <button class="page-link" (click)="changePage(p)">
+            {{ p }}
           </button>
-        </div>
-      </div>
-    </div>
+        </li>
+        }
+      </ul>
+    </nav>
+    }
   </div>
 </div>

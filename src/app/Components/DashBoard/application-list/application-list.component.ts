@@ -53,6 +53,23 @@ export class ApplicationListComponent implements OnInit, OnDestroy {
       })
     );
   }
+  currentPage = 1;
+  pageSize = 5;
+
+  get paginatedApplications() {
+    const start = (this.currentPage - 1) * this.pageSize;
+    return this.applications.slice(start, start + this.pageSize);
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.applications.length / this.pageSize);
+  }
+
+  changePage(p: number) {
+    if (p >= 1 && p <= this.totalPages) {
+      this.currentPage = p;
+    }
+  }
 
   ngOnDestroy() {
     this.sub.unsubscribe();
@@ -75,5 +92,8 @@ export class ApplicationListComponent implements OnInit, OnDestroy {
     if (!ok) return;
     this.storage.removeApplication(app.id);
     alert('Application withdrawn.');
+  }
+  get totalPagesArray(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 }

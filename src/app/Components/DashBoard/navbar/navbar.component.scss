@@ -1,84 +1,113 @@
-@use "sass:color";
-
-/* navbar.component.scss (fixed) */
-
-$primary-purple: #6f42c1;
-$primary-purple-dark: #5a32a3;
-
-/* Precomputed rgba color for shadows */
-$primary-purple-rgba: rgba(111, 66, 193, 0.12);
-
+/* ================= NAVBAR BASE ================= */
 .navbar {
+  background-color: #fff;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.04);
   padding: 0.8rem 0;
-  background-color: #ffffff !important; // solid white background
-  backdrop-filter: blur(6px); // optional: nice modern look
-  position: sticky;
-  top: 0;
+  backdrop-filter: blur(6px);
   z-index: 1000;
+}
 
-  .brand-logo {
-    width: 36px;
-    height: 36px;
-    background: linear-gradient(
-      135deg,
-      $primary-purple 0%,
-      $primary-purple-dark 100%
-    );
-    color: white;
-    border-radius: 8px;
-    display: flex;
+/* ================= BRAND ================= */
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--primary-color), #4b2aa6);
+  color: #fff;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.brand-text {
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+/* ================= USER ================= */
+.avatar-circle {
+  width: 38px;
+  height: 38px;
+  background: var(--primary-light);
+  color: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.username-text {
+  font-size: 0.95rem;
+  color: var(--text-dark);
+}
+
+/* ================= DROPDOWN ================= */
+.dropdown-menu {
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  padding: 0.4rem 0;
+}
+
+.dropdown-item {
+  font-weight: 500;
+  padding: 0.55rem 1rem;
+}
+
+.dropdown-item.text-danger {
+  font-weight: 600;
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    text-align: center;
+  }
+
+  .navbar-actions {
+    width: 100%;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 1.2rem;
+    gap: 0.6rem;
+    margin-top: 0.8rem;
   }
 
-  .brand-text {
-    font-weight: 700;
-    font-size: 1.3rem;
-    letter-spacing: -0.5px;
-    color: #212529;
+  .navbar-actions .btn {
+    min-width: 160px;
   }
+}
+/* Profile button – remove bootstrap blue focus */
+.btn-profile {
+  color: var(--primary-color);
+  background: transparent;
+  border: none;
+}
 
-  .nav-link {
-    color: $primary-purple;
-    font-weight: 500;
-    font-size: large;
-    padding: 0.5rem 1rem;
-    transition: color 0.2s ease;
-
-    &:hover {
-      color: $primary-purple;
-    }
-
-    &.active {
-      color: $primary-purple !important;
-      font-weight: 700;
-    }
-  }
-
-  .btn-register {
-    background-color: var(--primary-color);
-    border: none;
-    font-weight: 600;
-    color: #ffffff;
-
-    &:hover {
-      background-color: color.adjust(#5e35b1, $lightness: -10%);
-    }
-  }
-
-  .avatar-circle {
-    width: 38px;
-    height: 38px;
-    background-color: color.mix($primary-purple, #ffffff, $weight: 10%);
-    color: $primary-purple;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    border: 1px solid color.mix($primary-purple, #ffffff, $weight: 20%);
-  }
+/* Focus / active states */
+.btn-profile:focus,
+.btn-profile:active,
+.btn-profile:focus-visible {
+  color: var(--primary-color);
+  background: transparent;
+  box-shadow: none !important; /* removes blue glow */
+  outline: none;
+}
+/* Brand logo box */
+.brand-logo-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  color: #fff;
+  font-weight: 500;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }

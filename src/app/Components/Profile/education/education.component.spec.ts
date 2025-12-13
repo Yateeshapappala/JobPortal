@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EducationComponent } from './education.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('EducationComponent', () => {
   let component: EducationComponent;
@@ -8,7 +10,7 @@ describe('EducationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [EducationComponent]
+      imports: [EducationComponent,BrowserAnimationsModule,ToastrModule.forRoot()]
     })
     .compileComponents();
 

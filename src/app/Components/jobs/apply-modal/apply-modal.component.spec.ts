@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ApplyModalComponent } from './apply-modal.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+
+
 
 describe('ApplyModalComponent', () => {
   let component: ApplyModalComponent;
@@ -8,7 +11,7 @@ describe('ApplyModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ApplyModalComponent]
+      imports: [ApplyModalComponent,BrowserAnimationsModule,ToastrModule.forRoot()]
     })
     .compileComponents();
 

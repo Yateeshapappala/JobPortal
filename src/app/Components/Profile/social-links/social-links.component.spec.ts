@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SocialLinksComponent } from './social-links.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('SocialLinksComponent', () => {
   let component: SocialLinksComponent;
@@ -8,7 +10,7 @@ describe('SocialLinksComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SocialLinksComponent]
+      imports: [SocialLinksComponent,BrowserAnimationsModule,ToastrModule.forRoot()]
     })
     .compileComponents();
 

@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BasicInfoComponent } from './basic-info.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 describe('BasicInfoComponent', () => {
   let component: BasicInfoComponent;
@@ -8,7 +10,7 @@ describe('BasicInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BasicInfoComponent]
+      imports: [BasicInfoComponent,BrowserAnimationsModule,ToastrModule.forRoot()]
     })
     .compileComponents();
 

@@ -4,7 +4,7 @@ import { DashboardShellComponent } from './dashboard-shell.component';
 import { of } from 'rxjs';
 import { provideRouter } from '@angular/router';
 import { JobsService } from '../../../Services/job.service';
-import { AuthService } from '../../../Services/Auth.service';
+import { AuthService } from '../../../Services/auth.service';
 
 describe('DashboardShellComponent', () => {
   let component: DashboardShellComponent;

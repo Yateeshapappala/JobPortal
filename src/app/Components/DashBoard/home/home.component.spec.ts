@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HomeComponent } from './home.component';
 import { provideRouter } from '@angular/router';
 import { JobsService } from '../../../Services/job.service';
-import { AuthService } from '../../../Services/Auth.service';
+import { AuthService } from '../../../Services/auth.service';
 import { of } from 'rxjs';
 
 describe('HomeComponent', () => {

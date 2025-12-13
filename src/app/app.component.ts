@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { NavbarComponent } from './Components/DashBoard/navbar/navbar.component';
 import { RouterOutlet } from '@angular/router';
-import { AuthService } from './Services/Auth.service';
+import { AuthService } from './Services/auth.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

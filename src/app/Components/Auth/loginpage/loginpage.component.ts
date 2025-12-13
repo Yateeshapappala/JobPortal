@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../../Services/Auth.service';
+import { AuthService } from '../../../Services/auth.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { NgxCaptchaModule } from 'ngx-captcha';

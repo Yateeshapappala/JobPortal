@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApplicationStorageService } from './application-storage.service';
 import { Application } from '../Models/application.model';
-import { AuthService } from './Auth.service';
+import { AuthService } from './auth.service';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 

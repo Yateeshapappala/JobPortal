@@ -3,7 +3,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ApplicationStorageService } from '../../../Services/application-storage.service';
-import { AuthService } from '../../../Services/Auth.service';
+import { AuthService } from '../../../Services/auth.service';
 
 // Custom validator for contact number
 export function contactNumberValidator(control: AbstractControl): ValidationErrors | null {

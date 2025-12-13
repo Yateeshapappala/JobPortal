@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardStatsComponent } from '../dashboard-stats/dashboard-stats.component';
 import { ApplicationListComponent } from '../application-list/application-list.component';
 import { JobsService } from '../../../Services/job.service';
-import { AuthService } from '../../../Services/Auth.service';
+import { AuthService } from '../../../Services/auth.service';
 import { RouterModule, Router } from '@angular/router';
 import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { JobsService } from '../../Services/job.service';
+import { JobsService } from '../../../Services/job.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './job-list.component.html',
+  styleUrls: ['./job-list.component.scss'],
 })
 export class JobListComponent implements OnInit {
   jobs: any[] = [];
@@ -19,8 +20,13 @@ export class JobListComponent implements OnInit {
   pageSize = 10;
   searchText = "";
   showBookmarksOnly = false;
+  viewMode: 'card' | 'list' = 'card';
 
   constructor(private jobsService: JobsService) {}
+
+  setView(mode: 'card' | 'list') {
+    this.viewMode = mode;
+  }
 
   ngOnInit(): void {
     this.jobsService.getJobs().subscribe((res: any) => {

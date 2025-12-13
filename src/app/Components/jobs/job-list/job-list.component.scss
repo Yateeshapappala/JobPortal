@@ -1,0 +1,53 @@
+.apply-btn {
+  color: var(--primary-color);
+  background-color: transparent;
+  border: 2px solid var(--primary-color); /* same as bookmark default */
+  padding: 0.5rem 1.5rem;
+  transition: background-color 0.18s ease, color 0.18s ease, border 0.12s ease,
+    transform 0.12s ease;
+  cursor: pointer;
+}
+
+.apply-btn:hover,
+.apply-btn:focus {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: 3px solid var(--primary-color); /* match bookmark active border */
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+.apply-btn:active {
+  transform: translateY(0);
+}
+
+/* Respect pointer-capable devices for hover-like effects */
+@media (hover: hover) and (pointer: fine) {
+  .apply-btn:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  }
+}
+
+/* Clear search button tweaks to ensure click area and pointer */
+.clear-search-btn {
+  z-index: 9999;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: transparent;
+  padding: 0;
+  line-height: 0;
+}
+
+.clear-search-btn i {
+  pointer-events: none; /* let the button receive the click */
+}
+
+/* Ensure the relative wrapper allows the absolutely positioned button to show */
+.position-relative {
+  overflow: visible !important;
+}

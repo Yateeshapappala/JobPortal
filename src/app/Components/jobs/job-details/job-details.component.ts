@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { JobsService } from '../../Services/job.service';
+import { JobsService } from '../../../Services/job.service';
 import  { Location } from '@angular/common';
 import { ApplyModalComponent } from '../apply-modal/apply-modal.component';
 

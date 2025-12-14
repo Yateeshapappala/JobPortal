@@ -1,75 +1,117 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { Location, TitleCasePipe, DatePipe } from '@angular/common';
 import { JobsService } from '../../../Services/job.service';
-import  { Location } from '@angular/common';
+import { catchError } from 'rxjs/operators';
+import { of, Observable } from 'rxjs';
 import { ApplyModalComponent } from '../apply-modal/apply-modal.component';
+import { ToastrService } from 'ngx-toastr';
+import { NgIf, NgFor, NgStyle } from '@angular/common';
+
+// Assuming your Job interface looks something like this (adjust as needed)
+interface Job {
+    id: number | string;
+    title: string;
+    company_name: string;
+    description: string;
+    candidate_required_location: string;
+    job_type: string;
+    salary: string;
+    tags: string[];
+    publication_date: string;
+}
 
 @Component({
-  selector: 'app-job-details',
-  standalone: true,
-  // Note: Ensure ApplyModalComponent is imported here
-  imports: [CommonModule, ApplyModalComponent], 
-  templateUrl: './job-details.component.html',
-  styleUrls: ['./job-details.component.scss']
+    selector: 'app-job-details',
+    templateUrl: './job-details.component.html',
+    styleUrls: ['./job-details.component.scss'],
+    standalone: true,
+    imports: [
+        NgIf,
+        NgFor,
+        NgStyle,
+        TitleCasePipe,
+        DatePipe,
+        ApplyModalComponent // Import the modal component
+    ]
 })
 export class JobDetailsComponent implements OnInit {
-  private location = inject(Location);
-  private route = inject(ActivatedRoute);
-  private jobService = inject(JobsService);
+    jobDetails: Job | undefined;
+    jobId: string | undefined;
+    isJobApplied: boolean = false;
+    showApply: boolean = false; // State to manage modal visibility (if using a non-Bootstrap modal)
 
-  // Property used to control the button text/style
-  isJobApplied: boolean = false; 
+    private appliedJobsKey = 'appliedJobIds';
 
-  showApply = false;
-  hover = false;
-  jobId!: string;
-  jobDetails: any;
+    constructor(
+        private route: ActivatedRoute,
+        private jobService: JobsService,
+        private location: Location,
+        private toastr: ToastrService
+    ) {}
 
-  ngOnInit(): void {
-    this.jobId = this.route.snapshot.params['id'];
+    ngOnInit(): void {
+        const id = this.route.snapshot.params['id'];
+        this.jobId = id;
+        
+        // 1. Check applied status immediately upon load
+        this.checkAppliedStatus();
 
-    // Fetch job by ID from API or local storage
-    this.jobService.getJobById(this.jobId).subscribe((res: any) => {
-      this.jobDetails = res;
-      
-      // CRITICAL: Check status once job details are loaded
-      this.checkApplicationStatus(); 
-    });
-  }
-  
-  // --- CORE STATUS CHECK FUNCTION ---
-  checkApplicationStatus(): void {
-    // We only need to check if the jobDetails is ready and has an ID
-    if (!this.jobDetails || !this.jobDetails.id) {
-        return;
+        // 2. Fetch job details with error handling
+        this.jobService.getJobById(id).pipe(
+            catchError(error => {
+                console.error('Failed to load job details:', error);
+                this.jobDetails = undefined; // Set to undefined on API failure
+                this.toastr.error('Could not load job details.', 'Error');
+                return of(null); // Return a clean observable to complete the stream
+            })
+        )
+        .subscribe(job => {
+            if (job) {
+                this.jobDetails = job;
+            }
+        });
     }
-    
-    const appliedJobsKey = 'appliedJobIds';
-    // Access Local Storage directly (since we decided against a service)
-    const existingAppliedIds: (string | number)[] = JSON.parse(localStorage.getItem(appliedJobsKey) || '[]');
-    
-    // Check if the current jobId exists in the list of applied IDs
-    this.isJobApplied = existingAppliedIds.some(id => String(id) === String(this.jobDetails.id));
-    
-    console.log(`Job ID ${this.jobDetails.id} checked. Applied status: ${this.isJobApplied}`);
-  }
 
-  // --- EVENT HANDLER FROM MODAL ---
-  onModalHidden() {
-    // This method runs immediately after the modal closes, 
-    // ensuring the button status updates instantly.
-    console.log("Event received from modal: Rechecking application status...");
-    this.checkApplicationStatus();
-  }
+    /**
+     * Checks local storage to see if the current job ID has been applied to.
+     * This method handles the string-to-number conversion for robust comparison.
+     */
+    private checkAppliedStatus(): void {
+        if (!this.jobId) {
+            this.isJobApplied = false;
+            return;
+        }
 
-  // ... (Other helper methods) ...
-  
-  openApplyModal() {
-    this.showApply = true;
-  }
-  
-  goBack() {
-    this.location.back(); // goes back to previous page
-  }
+        const appliedJobsJson = localStorage.getItem(this.appliedJobsKey);
+        
+        if (appliedJobsJson) {
+            try {
+                const appliedIds: number[] = JSON.parse(appliedJobsJson);
+                
+                // CRITICAL FIX: Convert string ID from route to number for comparison
+                const numericId = parseInt(this.jobId, 10); 
+                
+                this.isJobApplied = appliedIds.includes(numericId);
+                
+            } catch (e) {
+                console.error('Error parsing applied job IDs from local storage', e);
+                this.isJobApplied = false;
+            }
+        } else {
+            this.isJobApplied = false;
+        }
+    }
+
+    /**
+     * Called when the apply modal is hidden (assuming successful application saved to storage).
+     * Re-runs the check to update the 'Applied' button status.
+     */
+    onModalHidden(): void {
+        this.checkAppliedStatus();
+    }
+
+    goBack(): void {
+        this.location.back();
+    }
 }

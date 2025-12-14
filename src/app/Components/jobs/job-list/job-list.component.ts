@@ -53,7 +53,7 @@ export class JobListComponent implements OnInit {
 
   /* ---------------------- LOCAL STORAGE MANAGEMENT ---------------------- */
     
-  private loadBookmarks(): void {
+  public loadBookmarks(): void {
     try {
       const storedBookmarks = localStorage.getItem(this.BOOKMARKS_KEY);
       if (storedBookmarks) {
@@ -65,7 +65,7 @@ export class JobListComponent implements OnInit {
     }
   }
 
-  private saveBookmarks(): void {
+  public saveBookmarks(): void {
     try {
       localStorage.setItem(this.BOOKMARKS_KEY, JSON.stringify(this.bookmarkedJobs));
     } catch (e) {

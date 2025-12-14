@@ -63,11 +63,11 @@
             [attr.aria-expanded]="showMenu"
           >
             <div class="avatar-circle">
-              {{ username ? username.charAt(0) : "" }}
+              {{ userInitial }}
             </div>
 
             <span class="fw-semibold username-text">
-              {{ username }}
+              {{ displayUsername }}
             </span>
 
             <i class="small text-muted">▾</i>

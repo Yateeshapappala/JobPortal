@@ -26,4 +26,11 @@
   &.border-primary {
     border-left-color: #0dcaf0; // Bootstrap info cyan
   }
+
+  &.border-purple{
+    border-left-color: var(--primary-color);
+  }
+  &.border-coral{
+    border-left-color: rgb(231, 88, 88);
+  }
 }

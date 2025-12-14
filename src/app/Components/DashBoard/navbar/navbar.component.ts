@@ -101,4 +101,13 @@ export class NavbarComponent implements OnDestroy {
   ngOnDestroy() {
     this.sub.unsubscribe();
   }
+  
+  get displayUsername(): string {
+    if (!this.username) return '';
+    return this.username.charAt(0).toUpperCase() + this.username.slice(1);
+  }
+
+  get userInitial(): string {
+    return this.username ? this.username.charAt(0).toUpperCase() : '';
+  }
 }

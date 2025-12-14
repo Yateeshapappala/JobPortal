@@ -37,7 +37,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <div class="navbar-actions d-flex align-items-center ms-auto">
         <!-- ===== Guest actions ===== -->
-        @if (!isLoggedIn && (isHomePage || showGuestAuthOnJobs)) {
+        @if (!isLoggedIn && (isHomePage || showGuestAuthOnJobs ||isJobsPage)) {
         <a
           routerLink="/login"
           class="btn btn-primary-purple rounded-pill px-4 py-2 me-lg-3 mb-2 mb-lg-0"

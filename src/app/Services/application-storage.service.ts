@@ -25,10 +25,15 @@ export class ApplicationStorageService {
     try {
       const parsed: any[] = JSON.parse(data);
       // Normalize dateApplied to Date objects
-      const normalized = parsed.map((p) => ({
-        ...p,
-        dateApplied: this.parseDate(p.dateApplied),
-      }));
+      const normalized = parsed.map((p) => {
+  const appWithDate = {
+    ...p,
+    dateApplied: this.parseDate(p.dateApplied),
+  } as Application;
+
+  return this.autoUpdateStatus(appWithDate);
+});
+
       // Persist normalized dates as ISO strings so storage is stable
       const serializable = normalized.map((a) => ({
         ...a,
@@ -148,4 +153,29 @@ export class ApplicationStorageService {
     })) as Application[];
     this.appsSubject.next(normalized);
   }
+  private autoUpdateStatus(app: Application): Application {
+  if (!app.dateApplied) return app;
+
+  const appliedDate = new Date(app.dateApplied).getTime();
+  const now = Date.now();
+  const daysPassed = Math.floor(
+    (now - appliedDate) / (1000 * 60 * 60 * 24)
+  );
+
+  // Do NOT override final states
+  if (app.status === 'SELECTED' || app.status === 'REJECTED') {
+    return app;
+  }
+
+  if (daysPassed > 5) {
+    return { ...app, status: daysPassed % 2 === 0 ? 'SELECTED' : 'REJECTED' };
+  }
+
+  if (daysPassed > 3) {
+    return { ...app, status: 'REVIEWED' };
+  }
+
+  return { ...app, status: 'IN-REVIEW' };
+}
+
 }

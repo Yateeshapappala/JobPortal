@@ -124,3 +124,8 @@ body {
   transform: translateX(2px);
   text-decoration: none;
 }
+
+.toast-container {
+  position: fixed !important;
+  z-index: 99999 !important;
+}

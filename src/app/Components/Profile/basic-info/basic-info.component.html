@@ -5,7 +5,24 @@
     <h5 class="info-name">{{ user?.fullName }}</h5>
     <p class="info-text">{{ user?.email }}</p>
     <p class="info-text">{{ user?.mobile }}</p>
-    <p class="info-text">{{ user?.city }}, {{ user?.state }}</p>
+    <p class="info-text" *ngIf="user?.city || user?.state">
+      <strong>Location:</strong>
+      {{ user?.city }}
+      <span *ngIf="user?.city && user?.state">, </span>
+      {{ user?.state }}
+    </p>
+
+    <p class="info-text" *ngIf="user?.dob">
+      <strong>DOB:</strong> {{ user?.dob | date }}
+    </p>
+
+    <p class="info-text" *ngIf="user?.gender">
+      <strong>Gender:</strong> {{ user?.gender }}
+    </p>
+
+    <p class="info-text" *ngIf="user?.country">
+      <strong>Country:</strong> {{ user?.country }}
+    </p>
   </div>
 </div>
 }

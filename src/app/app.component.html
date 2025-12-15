@@ -1,5 +1,7 @@
 <div class="app">
 <!-- hide navbar on login/register -->
-<app-navbar *ngIf="!hideNavbar"></app-navbar>
-<router-outlet></router-outlet>
+<div class="app">
+  <app-navbar *ngIf="!hideNavbar"></app-navbar>
+
+  <router-outlet></router-outlet>
 </div>

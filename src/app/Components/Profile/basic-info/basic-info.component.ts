@@ -32,8 +32,6 @@ export class BasicInfoComponent implements OnInit {
   @Input() editMode = false;
   @Output() saved = new EventEmitter<void>();
 
-  @ViewChild('fileInput') fileInput!: ElementRef;
-
   user!: User | null;
   form!: FormGroup;
   previewPic: string | null = null;
@@ -45,7 +43,14 @@ export class BasicInfoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.user = this.profileService.getCurrentUser();
+    this.profileService.user$.subscribe((user) => {
+      this.user = user;
+
+      // keep form in sync if already created
+      if (this.form && user) {
+        this.form.patchValue(user);
+      }
+    });
     this.previewPic = this.user?.profilePic || null;
 
     this.form = this.fb.group({
@@ -88,17 +93,6 @@ export class BasicInfoComponent implements OnInit {
     }
 
     return null;
-  }
-
-  openPic() {
-    this.fileInput.nativeElement.click();
-  }
-
-  pickPic(e: any) {
-    const f = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => (this.previewPic = reader.result as string);
-    reader.readAsDataURL(f);
   }
 
   save() {

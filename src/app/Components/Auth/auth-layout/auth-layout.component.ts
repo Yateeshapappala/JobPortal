@@ -8,8 +8,4 @@ import { Router } from '@angular/router';
   styleUrl: './auth-layout.component.scss',
 })
 export class AuthLayoutComponent {
-  constructor(private router: Router) {}
-  onBrandClick() {
-    this.router.navigate(['/dashboard']); 
-  }
 }

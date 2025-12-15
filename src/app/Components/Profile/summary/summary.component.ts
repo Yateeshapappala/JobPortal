@@ -25,6 +25,9 @@ export class SummaryComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+      this.form = this.fb.group({
+      summary: [this.user?.summary || ''],
+    });
     this.profileService.user$.subscribe((u) => {
       this.user = u;
       if (u) {
@@ -32,9 +35,7 @@ export class SummaryComponent implements OnInit {
       }
     });
 
-    this.form = this.fb.group({
-      summary: [this.user?.summary || ''],
-    });
+  
   }
 
   save() {

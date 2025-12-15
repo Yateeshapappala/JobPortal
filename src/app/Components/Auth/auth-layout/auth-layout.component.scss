@@ -9,28 +9,16 @@
     var(--primary-color),
     rgba(94, 53, 177, 0.8) 70%
   );
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   padding: clamp(32px, 6vw, 80px) clamp(24px, 5vw, 64px);
 }
-// ✅ no override conflict
 
 /* Illustration */
 .auth-illustration {
   width: 100%;
   max-width: 480px;
   margin-top: 20px;
-
-  /* 🔒 reserve space before image loads */
-  //aspect-ratio: 16 / 10;
-
   object-fit: contain;
   padding: 20px;
-
-  /* ✅ GPU-safe animation */
   animation: float 6s ease-in-out infinite;
   will-change: transform;
 }

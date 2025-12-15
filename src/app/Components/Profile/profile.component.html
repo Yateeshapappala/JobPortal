@@ -15,12 +15,14 @@
           </button>
 
           <!-- PHOTO MENU (Edit / Remove) -->
-          <div class="photo-menu" *ngIf="showPhotoMenu">
+          @if(showPhotoMenu){
+          <div class="photo-menu">
             <button (click)="triggerPhotoUpload()">Change Photo</button>
             <button class="remove-btn" (click)="removePhoto()">
               Remove Photo
             </button>
           </div>
+          }
         </div>
 
         <!-- Hidden file chooser -->
@@ -37,10 +39,11 @@
         <p class="profile-username">{{ user?.username }}</p>
 
         <div class="divider"></div>
-
-        <p class="profile-location" *ngIf="user?.city">
+        @if(user?.city){
+        <p class="profile-location">
           <i class="bi bi-geo-alt"></i> {{ user?.city }}, {{ user?.state }}
         </p>
+        }
       </div>
     </div>
 
